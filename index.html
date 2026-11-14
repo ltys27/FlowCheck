@@ -158,6 +158,26 @@ nav button.active{color:var(--acc)}
 .qg{padding:7px 14px;display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .qc{background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:13px}
 .qc.full{grid-column:1/-1}
+.qc{min-width:0}
+.qh{padding:12px 14px 0;font-size:10px;font-weight:800;letter-spacing:1.6px;color:var(--t3);text-transform:uppercase}
+.qsearch{position:sticky;top:0;z-index:10;padding:8px 14px;background:var(--bg)}
+.qsearch input{width:100%;background:var(--bg2);border:1px solid var(--bdr);border-radius:9px;color:var(--text);padding:10px 12px;font-size:15px;font-family:inherit;outline:none;-webkit-appearance:none}
+.qsearch input:focus{border-color:var(--acc)}
+.qnone{display:none;padding:24px 14px;text-align:center;color:var(--t3);font-size:13px}
+.qlst{list-style:none;font-size:13px;line-height:1.5;color:var(--t2)}
+.qlst li{padding:5px 0 5px 14px;position:relative;border-bottom:1px solid var(--bdr)}
+.qlst li:last-child{border-bottom:none}
+.qlst li::before{content:'';position:absolute;left:1px;top:12px;width:5px;height:5px;border-radius:50%;background:var(--acc);opacity:.7}
+.qlst b{color:var(--text)}
+.qsub{font-size:10px;font-weight:800;color:var(--t3);letter-spacing:1px;text-transform:uppercase;margin:11px 0 4px}
+.qsub:first-of-type{margin-top:0}
+.qt+.qsub{margin-top:0}
+.dim{color:var(--t3);font-size:12px}
+.dtbl.sm{font-size:11.5px;line-height:1.35;table-layout:fixed;overflow-wrap:anywhere}
+.dtbl.sm th,.dtbl.sm td{padding:6px 6px;vertical-align:top}
+.dtbl.sm th{position:sticky;top:56px;z-index:5}
+.dtbl.sm .k{color:var(--t2);width:31%}
+.qc .reasons li{font-size:13px}
 .qt{font-size:10px;font-weight:800;color:var(--acc);text-transform:uppercase;letter-spacing:1.1px;margin-bottom:9px}
 .qr{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--bdr);font-size:13px}
 .qr:last-child{border-bottom:none}
@@ -435,7 +455,7 @@ nav button.active{color:var(--acc)}
 <div class="card-body" style="padding:0"><div class="brief" data-edid="b-awnf"><strong style="color:var(--acc)">AWNF</strong> &nbsp;Aircraft status · Weather · NOTAMs · Fuel<br><br><strong style="color:var(--acc)">CPTS</strong> &nbsp;Cargo (NOTOC) · PWD Pax · Time (ETD + flight time) · Station Colour<div class="ibox"><div class="it">✈ A320 iPad Login</div><div class="ir"><span style="color:var(--t2)">Aircraft</span><span>—</span></div><div class="ir"><span style="color:var(--t2)">Username</span><span>—</span></div><div class="ir"><span style="color:var(--t2)">Password</span><span>—</span></div></div></div></div></div>
 
 <div class="card"><div class="card-hdr" onclick="toggleCard(this.parentElement)"><div><div class="ct" data-edid="ct-b-ls">E-LOADSHEET WORKFLOW</div><div class="cs" data-edid="cs-b-ls">Timeline before ETD</div></div><div class="chev">▼</div></div>
-<div class="card-body" style="padding:0"><table class="wft" data-edid="b-ls"><tr><th>ETD−</th><th>By</th><th>Action</th></tr><tr><td class="etd">−40</td><td class="by">Load Control</td><td>Final ZFW available via Aviator</td></tr><tr><td class="etd">−35</td><td class="by">Flight Crew</td><td>Final Fuel &amp; Burn figures relayed to Load Control via ACARS</td></tr><tr><td class="etd">−12</td><td class="by">Flight Crew</td><td>E-Loadsheet received via Aviator</td></tr><tr><td class="etd" style="color:var(--acc)">↑</td><td class="by">Flight Crew</td><td>Check &amp; sign Loadsheet on Aviator</td></tr><tr><td class="etd">−5</td><td class="by">Load Control</td><td>ACARS: "Signed Loadsheet and NOTOC VER XX received"</td></tr></table></div></div>
+<div class="card-body" style="padding:0"><table class="wft" data-edid="b-ls"><tr><th>ETD−</th><th>By</th><th>Action</th></tr><tr><td class="etd">−40</td><td class="by">Load Control</td><td>Final ZFW available via Aviator (reminder by −30)</td></tr><tr><td class="etd">−30</td><td class="by">Flight Crew</td><td>FIT &amp; BO (final fuel &amp; burn-off) relayed to Load Control via ACARS</td></tr><tr><td class="etd">−12</td><td class="by">Flight Crew</td><td>E-Loadsheet received via Aviator (reminder by −10)</td></tr><tr><td class="etd" style="color:var(--acc)">↑</td><td class="by">Flight Crew</td><td>Check &amp; sign Loadsheet on Aviator</td></tr><tr><td class="etd">−5</td><td class="by">Load Control</td><td>ACARS: "Signed Loadsheet and NOTOC VER XX received"</td></tr></table></div></div>
 
 <div class="card"><div class="card-hdr" onclick="toggleCard(this.parentElement)"><div><div class="ct" data-edid="ct-b-notoc">E-NOTOC WORKFLOW</div><div class="cs" data-edid="cs-b-notoc">Timeline before ETD</div></div><div class="chev">▼</div></div>
 <div class="card-body" style="padding:0"><table class="wft" data-edid="b-notoc"><tr><th>ETD−</th><th>By</th><th>Action</th></tr><tr><td class="etd">−20 to −15</td><td class="by">Flight Crew</td><td>E-NOTOC received via Aviator</td></tr><tr><td class="etd" style="color:var(--acc)">↑</td><td class="by">Flight Crew</td><td>Verify &amp; sign E-NOTOC on Aviator</td></tr><tr><td class="etd">−2</td><td class="by">Load Control</td><td>ACARS confirmation of signed Loadsheet + NOTOC</td></tr></table></div></div>
@@ -451,19 +471,73 @@ nav button.active{color:var(--acc)}
 <div id="page-qr" class="page">
 <div class="pgt" data-edid="pgt-qr">Quick Reference</div>
 <div class="ed-hint">✏ Tap any yellow-outlined area to edit — values, labels, anything</div>
+<div class="qsearch"><input id="qr-q" type="search" placeholder="Search quick ref…  e.g. tailwind, IFLD, loadsheet" oninput="filterQR()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
+<div id="qr-none" class="qnone">No matches</div>
+<div class="qgrp">
+<div class="qh">Numbers</div>
 <div class="qg">
   <div class="qc" data-edid="qr-1"><div class="qt">Pax Weights</div><div class="qr"><span class="ql">Adult</span><span class="qv">77 kg</span></div><div class="qr"><span class="ql">Child</span><span class="qv">40 kg</span></div><div class="qr"><span class="ql">Infant</span><span class="qv">10 kg</span></div></div>
-  <div class="qc" data-edid="qr-2"><div class="qt">APU Fuel Burn</div><div class="qr"><span class="ql">No Bleed</span><span class="qv">80 kg/hr</span></div><div class="qr"><span class="ql">With Bleed</span><span class="qv">130 kg/hr</span></div></div>
-  <div class="qc full" data-edid="qr-3"><div class="qt">Fuel Burn Rates</div><div class="qr"><span class="ql">Taxi</span><span class="qv">20 kg/min</span></div><div class="qr"><span class="ql">Climb</span><span class="qv">60 kg/min</span></div><div class="qr"><span class="ql">Cruise</span><span class="qv">40–50 kg/min</span></div><div class="qr"><span class="ql">Descent</span><span class="qv">40 kg/min</span></div><div class="qr"><span class="ql">10 nm</span><span class="qv">≈ 100 kg</span></div><div class="qr"><span class="ql">1 Hold (4 min)</span><span class="qv">≈ 200 kg</span></div></div>
-  <div class="qc full" data-edid="qr-4"><div class="qt">Fuel Discrepancy Limits</div><table class="dtbl"><tr><th>FOB After Refuel</th><th>Action if Diff Above</th></tr><tr><td>Up to 6 t</td><td class="w">400 kg → Maintenance</td></tr><tr><td>6 t – 12 t</td><td class="w">500 kg → Maintenance</td></tr><tr><td>More than 12 t</td><td class="w">600 kg → Maintenance</td></tr></table><div class="qn">Crosscheck: FOB end of last flight + uplift = current FOB</div></div>
+  <div class="qc" data-edid="qr-2"><div class="qt">APU Fuel Burn</div><div class="qr"><span class="ql">No Bleed</span><span class="qv">80 kg/hr</span></div><div class="qr"><span class="ql">With Bleed</span><span class="qv">100 kg/hr</span></div></div>
   <div class="qc full" data-edid="qr-5"><div class="qt">Hard Landing Threshold</div><div class="qr"><span class="ql">Standard</span><span class="qv" style="color:#fca5a5">&gt; 2.6 G</span></div><div class="qr"><span class="ql">Overweight (OVW)</span><span class="qv" style="color:#fca5a5">&gt; 1.7 G</span></div><div class="qn">MCDU → AIDS → Stored Reports → Load Reports 15</div></div>
-  <div class="qc full" data-edid="qr-6"><div class="qt">Rest Rules</div><div class="qr"><span class="ql">Local Night</span><span class="qv">2200–0800 L (8 hrs)</span></div><div class="qr"><span class="ql">Rest Start</span><span class="qv">Sign-off + 1 hr</span></div><div class="qr"><span class="ql">Min Rest</span><span class="qv">10 hrs or preceding duty ↑</span></div></div>
-  <div class="qc full" data-edid="qr-7"><div class="qt">CAT Decision Altitudes</div><div style="display:flex;gap:7px;margin-top:4px"><div style="background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:9px 12px;flex:1;text-align:center"><div style="font-size:9px;color:var(--t3);font-weight:700;letter-spacing:.4px">CAT A</div><div style="font-size:22px;font-weight:800;color:var(--acc);margin-top:3px">Nil</div></div><div style="background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:9px 12px;flex:1;text-align:center"><div style="font-size:9px;color:var(--t3);font-weight:700;letter-spacing:.4px">CAT B</div><div style="font-size:22px;font-weight:800;color:var(--acc);margin-top:3px">3</div></div><div style="background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:9px 12px;flex:1;text-align:center"><div style="font-size:9px;color:var(--t3);font-weight:700;letter-spacing:.4px">CAT C</div><div style="font-size:22px;font-weight:800;color:var(--acc);margin-top:3px">10</div></div><div style="background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:9px 12px;flex:1;text-align:center"><div style="font-size:9px;color:var(--t3);font-weight:700;letter-spacing:.4px">CAT D</div><div style="font-size:22px;font-weight:800;color:var(--acc);margin-top:3px">120</div></div></div><div class="qn">Check validity + any recurring DDL</div></div>
-  <div class="qc full" data-edid="qr-8"><div class="qt">Engine Warm-Up</div><div class="qr"><span class="ql">First flight of day</span><span class="qv">5 mins</span></div><div class="qr"><span class="ql">Subsequent</span><span class="qv">2 mins</span></div></div>
-  <div class="qc full" data-edid="qr-9"><div class="qt">Fuel Planning</div><div class="qr"><span class="ql">Min Dispatch</span><span class="qv" style="font-size:12px">Taxi + Burn + SFR (min 60 min hold at dest)</span></div><div class="qr"><span class="ql">Tankering</span><span class="qv" style="font-size:12px">400 + Sec 1 Trip + Sec 2 Uplift</span></div><div class="qr"><span class="ql">Weight Limited</span><span class="qv">Use shortest option</span></div><div class="qr"><span class="ql">IRS Align (±2°)</span><span class="qv">WMKK · WBGG · WIBB</span></div></div>
+  <div class="qc full" data-edid="qr-13"><div class="qt">Expectant Mothers</div><div class="qr"><span class="ql">MC required</span><span class="qv">After 28th week</span></div><div class="qr"><span class="ql">Journey completed by</span><span class="qv">36th week</span></div><div class="qr"><span class="ql">Multiple pregnancy</span><span class="qv">32nd week</span></div></div>
+</div>
+</div>
+<div class="qgrp">
+<div class="qh">Fuel</div>
+<div class="qg">
+  <div class="qc full" data-edid="qr-3"><div class="qt">Fuel Burn Rates</div><div class="qr"><span class="ql">Taxi</span><span class="qv">20 kg/min</span></div><div class="qr"><span class="ql">Climb</span><span class="qv">60 kg/min</span></div><div class="qr"><span class="ql">Cruise</span><span class="qv">40–50 kg/min</span></div><div class="qr"><span class="ql">Descent</span><span class="qv">40 kg/min</span></div><div class="qr"><span class="ql">10 nm</span><span class="qv">≈ 100 kg</span></div><div class="qr"><span class="ql">1 Hold (4 min)</span><span class="qv">≈ 200 kg</span></div><div class="qr"><span class="ql">Refuelling</span><span class="qv">1 t / 2 mins</span></div></div>
+  <div class="qc full" data-edid="qr-4"><div class="qt">Fuel Discrepancy Limits</div><table class="dtbl"><tr><th>FOB After Refuel</th><th>Action if Diff Above</th></tr><tr><td>Up to 6 t</td><td class="w">400 kg → Maintenance</td></tr><tr><td>6 t – 12 t</td><td class="w">500 kg → Maintenance</td></tr><tr><td>More than 12 t</td><td class="w">600 kg → Maintenance</td></tr></table><div class="qn">Crosscheck: FOB end of last flight + uplift = current FOB</div></div>
+  <div class="qc full" data-edid="qr-9"><div class="qt">Fuel Planning</div><div class="qr"><span class="ql">Min Dispatch</span><span class="qv" style="font-size:12px">Taxi + Burn + SFR (min 60 min hold at dest)</span></div><div class="qr"><span class="ql">Tankering</span><span class="qv" style="font-size:12px">400 + Sec 1 Trip + Sec 2 Uplift</span></div><div class="qr"><span class="ql">Weight Limited</span><span class="qv">Use shortest option</span></div><div class="qr"><span class="ql">IRS Align (±2°)</span><span class="qv">WBKK · WBGG · WIBB · WALL</span></div></div>
+  <div class="qc full" data-edid="qr-14"><div class="qt">Extra Fuel</div><ul class="qlst"><li><b>TEMPO within ±1 hr of ETA:</b> 600 kg (15 min), up to 1.5 T if +TSRA &amp; gusty</li><li><b>Wx en route:</b> 200 kg</li><li><b>Taxi congestion:</b> 200 kg / 10 min · 3 min per aircraft ahead</li><li><b>Cargo:</b> add 1,000 kg to ZFW and check trip fuel</li><li><b>FL change:</b> use OFP or Box to determine</li></ul><div class="qn">Reasons in Ops Ref — see Fuel Uplift Reasons on the Briefings tab</div></div>
+</div>
+</div>
+<div class="qgrp">
+<div class="qh">Aircraft</div>
+<div class="qg">
+  <div class="qc full" data-edid="qr-15"><div class="qt">A320 CEO / NEO / A321 NEO Differences</div><table class="dtbl sm"><tr><th></th><th>A320 CEO</th><th>A320 NEO</th><th>A321 NEO</th></tr><tr><td class="k">Seats (reduced crew)</td><td>180 (130)</td><td>186 (145)</td><td>236 (190)</td></tr><tr><td class="k">Fuel quantity</td><td>18,729 kg</td><td>18,623 kg</td><td>18,511 kg</td></tr><tr><td class="k">Engine oil</td><td>11 qts + 0.3/hr</td><td>14 qts</td><td>14 qts</td></tr><tr><td class="k">Start cycle (after 1 cycle / 3 cycles)</td><td>1 start (15 sec / 30 min)</td><td>2 starts (35 sec / 15 min)</td><td>2 starts (35 sec / 15 min)</td></tr><tr><td class="k">N1 / starter cutoff</td><td>N2: 34% / 43%</td><td>N2: 48% / 55%</td><td>N2: 48% / 55%</td></tr><tr><td class="k">EGT limit</td><td>610 / 635</td><td>1043 / 1083</td><td>1043 / 1083</td></tr><tr><td class="k">Pack flow LO</td><td>&lt; 141 pax</td><td>&lt; 141 pax</td><td>&lt; 168 pax</td></tr><tr><td class="k">Max 20 kt in turns if</td><td>TOW &gt; 76,000 kg</td><td>NA</td><td>NA</td></tr><tr><td class="k">Green dot (+1 kt per 1,000 ft above FL200)</td><td>2×GW + 80 kt</td><td>2×GW + 85 kt</td><td>?? eQRH OPS</td></tr><tr><td class="k">Flap 1 auto retract</td><td>210 kt</td><td>210 kt</td><td>210 kt</td></tr><tr><td class="k">Gravity feed</td><td>&lt;30 min: FL300</td><td>&lt;30 min: FL300</td><td>&lt;30 min: FL300</td></tr><tr><td class="k">Vapp (A/THR on)</td><td>GW + 75 kt</td><td>GW + 70 kt</td><td>GW + 60 kt ??</td></tr><tr><td class="k">Approach pitch / thrust (full flaps)</td><td>+2.5° / 52.5%</td><td>+2.5°</td><td>0° / 52.5%</td></tr><tr><td class="k">Speedbrake with A/P</td><td>Half (up to Flaps 3)</td><td>Half (up to Flaps 3)</td><td>Full (up to Flaps 2)</td></tr><tr><td class="k">Turbulence speed</td><td>250 / 275 / 0.76</td><td>260 / 280 / 0.76</td><td>275 / 305 / 0.76</td></tr><tr><td class="k">Cont. ignition</td><td>Eng anti-ice on</td><td>Self select</td><td>Self select</td></tr><tr><td class="k">APU (single pack)</td><td>20,000 ft</td><td>22,500 ft</td><td>22,500 ft</td></tr><tr><td class="k">TCAS</td><td>Manual</td><td>Auto</td><td>Auto</td></tr><tr><td class="k">Go around</td><td>–</td><td>Soft (MCT)</td><td>Soft (MCT)</td></tr><tr><td class="k">Tailstrike (call-out)</td><td>(10)</td><td>(10)</td><td>9.7 / 11.2 (7.5)</td></tr><tr><td class="k">OEB</td><td>–</td><td>57 / 58 / 59</td><td>57 / 58 / 59</td></tr><tr><td class="k">Fuel/min (gnd / air)</td><td>20 / 40 kg</td><td>20 / 30 kg</td><td>20 / 35 kg</td></tr><tr><td class="k">Pitch / thrust in cruise</td><td>62 T, FL350, 0.78, 260 kt, 2.5°, 81%</td><td></td><td>70 T, FL350, 0.77, 255 kt, 2.5°, 85%</td></tr><tr><td class="k">Max weight (ZFW / TOW / LDW)</td><td>61.0 / 77.0* / 64.5</td><td>62.8 / 77.0 / 66.3</td><td>75.6 / 93.6 / 79.2</td></tr><tr><td class="k">Overweight landing</td><td>If &gt; 38 °C</td><td>If &gt; 38 °C</td><td>Do IFLD (Flap 3?)</td></tr><tr><td class="k">OPT CRZ FL390</td><td>&lt; 63 T</td><td>&lt; 65 T</td><td>< 69 T<br>80 T → FL345</td></tr><tr><td class="k">T/O crosswind (dry-wet / contaminated)</td><td>30 / 15</td><td>30 / 15</td><td>30 / 15</td></tr><tr><td class="k">T/O tailwind</td><td>15 / NA</td><td>15 / NA</td><td>15 / NA</td></tr><tr><td class="k">LDG crosswind (dry-wet / contaminated)</td><td>30 / 20</td><td>30 / 20</td><td>30 / 20</td></tr><tr><td class="k">LDG tailwind</td><td>15 / NA</td><td>15 / NA</td><td>15 / NA</td></tr><tr><td class="k">SII</td><td></td><td></td><td>Turn radius<br>ROW/ROP<br>1EO: use Flap 3</td></tr></table></div>
+  <div class="qc full" data-edid="qr-16"><div class="qt">A321 Differences</div><ul class="qlst"><li>FMS H3 — INIT, SEC F-PLN swap</li><li>Overwing door MEL</li><li>Taxi technique — overshoot slightly, don’t cut corner</li><li>ROPS — 2 (TERR pb) or 2+ (Wet/Dry &amp; ROP pb)</li><li>Takeoff perf &amp; speeds vs flap speeds (1+F auto retract is OK)</li><li>Tailstrike avoidance: more flaps or less flex</li><li>D-ATIS is available in ATC COMM</li></ul></div>
   <div class="qc full" data-edid="qr-10"><div class="qt">Pack Flow — LO Mode</div><div class="qr"><span class="ql">A320</span><span class="qv">&lt; 141 pax</span></div><div class="qr"><span class="ql">A321</span><span class="qv">&lt; 168 pax</span></div></div>
+  <div class="qc full" data-edid="qr-8"><div class="qt">Engine Warm-Up</div><div class="qr"><span class="ql">First flight of day</span><span class="qv">5 mins</span></div><div class="qr"><span class="ql">Subsequent</span><span class="qv">2 mins</span></div></div>
+  <div class="qc full" data-edid="qr-7"><div class="qt">CAT Decision Altitudes</div><div style="display:flex;gap:7px;margin-top:4px"><div style="background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:9px 12px;flex:1;text-align:center"><div style="font-size:9px;color:var(--t3);font-weight:700;letter-spacing:.4px">CAT A</div><div style="font-size:22px;font-weight:800;color:var(--acc);margin-top:3px">Nil</div></div><div style="background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:9px 12px;flex:1;text-align:center"><div style="font-size:9px;color:var(--t3);font-weight:700;letter-spacing:.4px">CAT B</div><div style="font-size:22px;font-weight:800;color:var(--acc);margin-top:3px">3</div></div><div style="background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:9px 12px;flex:1;text-align:center"><div style="font-size:9px;color:var(--t3);font-weight:700;letter-spacing:.4px">CAT C</div><div style="font-size:22px;font-weight:800;color:var(--acc);margin-top:3px">10</div></div><div style="background:var(--bg3);border:1px solid var(--bdr);border-radius:8px;padding:9px 12px;flex:1;text-align:center"><div style="font-size:9px;color:var(--t3);font-weight:700;letter-spacing:.4px">CAT D</div><div style="font-size:22px;font-weight:800;color:var(--acc);margin-top:3px">120</div></div></div><div class="qn">Check validity + any recurring DDL</div></div>
+</div>
+</div>
+<div class="qgrp">
+<div class="qh">Runway &amp; Performance</div>
+<div class="qg">
+  <div class="qc full" data-edid="qr-17"><div class="qt">Contaminated Runway (RwyCC 4 or less)</div><ul class="qlst"><li>TOGA</li><li>Winds: max crosswind 15 kt, no tailwind</li><li>MELs on deceleration items</li><li>No poor braking action reported</li></ul><div class="qsub">TRAP15</div><ul class="qlst"><li>No tailwind</li><li>Thrust reversers</li><li>Anti-skid</li><li>Any brakes deactivated</li><li>Poor braking action</li><li>15 kt crosswind</li></ul></div>
+  <div class="qc full" data-edid="qr-18"><div class="qt">TOGA for Takeoff (TACLAWr)</div><ul class="qlst"><li><b>T</b>urbulence / thunderstorms</li><li><b>A</b>nti-ice fluids on wings</li><li><b>C</b>ontaminated runway (RwyCC 4 or less)</li><li><b>L</b>anding gear down ops</li><li><b>A</b>nti-skid inop</li><li><b>W</b>et runway with <b>r</b>ev inop</li></ul></div>
+  <div class="qc full" data-edid="qr-19"><div class="qt">IFLD Calculation Required</div><ol class="reasons"><li>LDA &lt; 2000 m</li><li>Runway contaminated</li><li>CDL / MEL items impacting landing performance</li><li>NOTAMs affecting landing performance (e.g. displaced threshold, obstacles, runway exits)</li><li>Required by abnormal procedures</li><li>Any other condition that may adversely affect approach speed and/or deceleration capability (e.g. adverse weather)</li></ol></div>
+  <div class="qc" data-edid="qr-20"><div class="qt">Autobrake Medium</div><ul class="qlst"><li>Abnormals</li><li>Runway contaminated or slippery</li><li>Runway &lt; 2000 m</li></ul></div>
+  <div class="qc" data-edid="qr-21"><div class="qt">Flaps 3 Prohibited</div><ul class="qlst"><li>Runway &lt; 2000 m</li><li>Promulgated in FSI, INTAM, Airport Briefing</li></ul></div>
+</div>
+</div>
+<div class="qgrp">
+<div class="qh">Approach &amp; PF</div>
+<div class="qg">
+  <div class="qc full" data-edid="qr-22"><div class="qt">RNP Approach</div><ul class="qlst"><li>MCDU vs chart tolerances: FCOM / NP / FINAL APP</li><li><b>1G:</b> 1 GPS fault or 1 GPS PRIMARY lost — continue</li><li><b>2GPA1D:</b> go around unless visual</li><li>Systems with 2 required — <b>INF</b>: IRS, ND, FCU</li></ul></div>
+  <div class="qc full" data-edid="qr-23"><div class="qt">Circling Minimums</div><div class="qr"><span class="ql">Speed</span><span class="qv">180 kt</span></div><div class="qr"><span class="ql">MDA</span><span class="qv">600 ft</span></div><div class="qr"><span class="ql">VIS</span><span class="qv">2400</span></div></div>
+  <div class="qc" data-edid="qr-24"><div class="qt">Capt as PF</div><ul class="qlst"><li>Adverse weather</li><li>Contaminated / slippery runway or taxiway</li><li>CAT II / III</li><li>Autoland</li><li>Circling</li><li>Visual without aids</li><li>Diversion to unfamiliar airport</li><li>Discretion</li></ul></div>
+  <div class="qc" data-edid="qr-25"><div class="qt">FO as PF</div><div class="qsub">Takeoff</div><ul class="qlst"><li>Vis 800 m</li><li>Crosswind &lt; 20 kt</li></ul><div class="qsub">Landing</div><ul class="qlst"><li>Vis 3 km</li><li>Ceiling &gt; 500 ft</li><li>Crosswind &lt; 15 kt</li></ul></div>
+</div>
+</div>
+<div class="qgrp">
+<div class="qh">Loadsheet &amp; DG</div>
+<div class="qg">
+  <div class="qc full" data-edid="qr-26"><div class="qt">E-Loadsheet</div><table class="dtbl"><tr><th>EOBT−</th><th>Action</th></tr><tr><td class="w">−40</td><td>Final ZFW <span class="dim">(reminder by −30)</span></td></tr><tr><td class="w">−30</td><td>FIT &amp; BO to LCD</td></tr><tr><td class="w">−20</td><td>e-NOTOC <span class="dim">(physical NOTOC by −15)</span></td></tr><tr><td class="w">−12</td><td>Loadsheet received <span class="dim">(reminder by −10)</span></td></tr></table><div class="qsub">Capt reads out only</div><div class="ibox2">Flight No. &nbsp;·&nbsp; ACFT Reg &nbsp;·&nbsp; Date<br>Crew &nbsp;·&nbsp; TOB &nbsp;·&nbsp; BW &amp; BI</div></div>
+  <div class="qc full" data-edid="qr-27"><div class="qt">Loadsheet Backup Plan</div><ol class="reasons"><li>Get ZFW via ACARS</li><li>Get loadsheet via ACARS — print, sign, take photo and attach. Give one copy to GHA</li><li>If ACARS down: paper loadsheet</li></ol></div>
+  <div class="qc full" data-edid="qr-28"><div class="qt">LMC Template</div><div class="ibox2">04 ADULTS OFF NIL BAGS</div></div>
+  <div class="qc full" data-edid="qr-29"><div class="qt">Dangerous Goods</div><div class="qsub">Watt-hour (Wh) rating</div><div class="qr"><span class="ql">mAh given</span><span class="qv">Wh = (mAh × V) / 1000</span></div><div class="qr"><span class="ql">Ah given</span><span class="qv">Wh = Ah × V</span></div><div class="qn">DG table: SEPM — IATA Table 2.3.A</div></div>
+</div>
+</div>
+<div class="qgrp">
+<div class="qh">Ops &amp; Duty</div>
+<div class="qg">
+  <div class="qc full" data-edid="qr-6"><div class="qt">FDP — Rest Rules</div><div class="qr"><span class="ql">Local Night</span><span class="qv">2200–0800 L (8 hrs)</span></div><div class="qr"><span class="ql">Rest Start</span><span class="qv">Sign-off + 1 hr</span></div><div class="qr"><span class="ql">Min Rest</span><span class="qv">10 hrs or preceding duty ↑</span></div></div>
+  <div class="qc full" data-edid="qr-30"><div class="qt">Passport Missing?</div><ul class="qlst"><li>Nationality? With friends? Offloaded bags?</li><li>OCC: provide pax’s details and get them to settle</li></ul></div>
+  <div class="qc full" data-edid="qr-31"><div class="qt">Crew Rest in Flight Deck</div><ul class="qlst"><li>CRFD taken as part of fatigue management strategy</li></ul></div>
   <div class="qc full" data-edid="qr-11"><div class="qt">Instrument Checks Sequence</div><div class="ibox2">CLB &nbsp;·&nbsp; NAV &nbsp;·&nbsp; BLUE &nbsp;·&nbsp; 1FD2<br>Q1013 &nbsp;·&nbsp; ELEV 8<br>ND: HDG &nbsp;·&nbsp; STBY COMPASS &nbsp;·&nbsp; ISIS<br>STS &nbsp;·&nbsp; PRESSURE AUTO<br>IRS DRIFT: 0 &nbsp;·&nbsp; GROSS ERROR CHECK</div></div>
-  <div class="qc full" data-edid="qr-12"><div class="qt">Certificate Folder — ADMIRAL WN</div><div style="font-size:13px;line-height:2;color:var(--t2)"><div>✈ AOC &nbsp;·&nbsp; Disinfection &nbsp;·&nbsp; Maintenance Release ×2 &nbsp;·&nbsp; Insurance</div><div>✈ Registration <span style="color:var(--t3)">(no expiry)</span> &nbsp;·&nbsp; Airworthiness &nbsp;·&nbsp; Station License</div><div>✈ Weight &amp; Balance <span style="color:var(--t3)">(no expiry)</span> &nbsp;·&nbsp; Noise <span style="color:var(--t3)">(no expiry)</span></div></div></div>
+  <div class="qc full" data-edid="qr-12"><div class="qt">Certificate Folder — ADMIRAL WN</div><div style="font-size:13px;line-height:2;color:var(--t2)"><div>✈ AOC &nbsp;·&nbsp; Disinsection &nbsp;·&nbsp; Maintenance Release ×2 &nbsp;·&nbsp; Insurance</div><div>✈ Registration <span style="color:var(--t3)">(no expiry)</span> &nbsp;·&nbsp; Airworthiness &nbsp;·&nbsp; Station License</div><div>✈ Weight &amp; Balance <span style="color:var(--t3)">(no expiry)</span> &nbsp;·&nbsp; Noise <span style="color:var(--t3)">(no expiry)</span></div></div></div>
+</div>
 </div>
 </div><!-- /page-qr -->
 
@@ -849,13 +923,26 @@ function toggleEdit(){
     saveEditable();
   }
 }
+// Only content that differs from the built-in default is stored, so an untouched
+// card keeps following the app when its default is updated in a later release.
+const ED_DEF={};
+// Bump ED_VER and list the data-edid values whose built-in content was rewritten:
+// device copies of those are dropped once so the new content shows.
+const ED_VER=2, ED_REWRITTEN=['qr-2','qr-3','qr-6','qr-9','qr-12','b-ls'];
 function saveEditable(){
   document.querySelectorAll('[data-edid]').forEach(el=>{
-    localStorage.setItem('fc-ed-'+el.dataset.edid, el.innerHTML);
+    const k='fc-ed-'+el.dataset.edid;
+    if(el.innerHTML===ED_DEF[el.dataset.edid]) localStorage.removeItem(k);
+    else localStorage.setItem(k, el.innerHTML);
   });
 }
 function loadEditable(){
+  if(+localStorage.getItem('fc-ed-ver')<ED_VER){
+    ED_REWRITTEN.forEach(id=>localStorage.removeItem('fc-ed-'+id));
+    localStorage.setItem('fc-ed-ver',ED_VER);
+  }
   document.querySelectorAll('[data-edid]').forEach(el=>{
+    ED_DEF[el.dataset.edid]=el.innerHTML;
     const saved=localStorage.getItem('fc-ed-'+el.dataset.edid);
     if(saved!==null) el.innerHTML=saved;
   });
@@ -917,6 +1004,21 @@ async function exportApp(){
     document.body.appendChild(a); a.click();
     setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},2000);
   }catch(e){ alert('Export: open the app from a web server (not file://) for this to work.'); }
+}
+
+// ══ QUICK REF SEARCH ══
+function filterQR(){
+  const words=document.getElementById('qr-q').value.toLowerCase().split(/\s+/).filter(Boolean);
+  let any=false;
+  document.querySelectorAll('#page-qr .qgrp').forEach(g=>{
+    let n=0;
+    g.querySelectorAll('.qc').forEach(c=>{
+      const t=c.textContent.toLowerCase(), hit=words.every(w=>t.includes(w));
+      c.style.display=hit?'':'none'; if(hit) n++;
+    });
+    g.style.display=n?'':'none'; if(n) any=true;
+  });
+  document.getElementById('qr-none').style.display=any?'none':'block';
 }
 
 // ══ ECAM ══
