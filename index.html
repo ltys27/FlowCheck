@@ -491,7 +491,7 @@ nav button.active{color:var(--acc)}
 <div class="card-body" style="padding:0"><div class="brief" data-edid="b-tkoff">"Call out any malfunction or warning. When any malfunction occurs before V1, I will call <span class="em">'STOP'</span> or <span class="em">'GO'</span>. Before V1, I will reject the takeoff for engine failure, any warning, caution or condition that <span class="em">significantly affects the safety of the flight</span>."</div></div></div>
 
 <div class="card"><div class="card-hdr" onclick="toggleCard(this.parentElement)"><div><div class="ct" data-edid="ct-b-fo">FIRST OFFICER SECTOR BRIEFING (by Captain)</div></div><div class="chev">▼</div></div>
-<div class="card-body" style="padding:0"><div class="brief" data-edid="b-fo">"I shall have control of the thrust levers for the takeoff. If I call <span class="em">'STOP'</span>, I will take over control and reject the takeoff. If I call <span class="em">'GO'</span>, you will continue the takeoff until I say, <span class="em">'I HAVE CONTROL'</span>"</div></div></div>
+<div class="card-body" style="padding:0"><div class="brief" data-edid="b-fo">"I shall have control of the thrust levers for the takeoff. If I call <span class="em">'STOP'</span>, I will take over control and reject the takeoff. If I call <span class="em">'GO'</span>, you will continue the takeoff until I say, <span class="em">'I HAVE CONTROL'</span>."<br><br>"If you initiate a go-around, you will continue to fly until I say, <span class="em">'I HAVE CONTROL'</span>. Below minima, if I call <span class="em">'I HAVE CONTROL, GO-AROUND'</span>, I will take over control and reject the landing."</div></div></div>
 
 <div class="card"><div class="card-hdr" onclick="toggleCard(this.parentElement)"><div><div class="ct" data-edid="ct-b-awnf">CABIN CREW BRIEFING — AWNF CPTS</div><div class="cs" data-edid="cs-b-awnf">Pre-departure briefing to CIC</div></div><div class="chev">▼</div></div>
 <div class="card-body" style="padding:0"><div class="brief" data-edid="b-awnf"><strong style="color:var(--acc)">AWNF</strong> &nbsp;Aircraft status · Weather · NOTAMs · Fuel<br><br><strong style="color:var(--acc)">CPTS</strong> &nbsp;Cargo (NOTOC) · PWD Pax · Time (ETD + flight time) · Station Colour<div class="ibox"><div class="it">✈ A320 iPad Login</div><div class="ir"><span style="color:var(--t2)">Aircraft</span><span>—</span></div><div class="ir"><span style="color:var(--t2)">Username</span><span>—</span></div><div class="ir"><span style="color:var(--t2)">Password</span><span>—</span></div></div></div></div></div>
@@ -1018,7 +1018,7 @@ function toggleEdit(){
 const ED_DEF={};
 // Bump ED_VER and list the data-edid values whose built-in content was rewritten:
 // device copies of those are dropped once so the new content shows.
-const ED_VER=4, ED_REWRITTEN=['b-ls'];
+const ED_VER=5, ED_REWRITTEN=['b-fo'];
 function saveEditable(){
   document.querySelectorAll('[data-edid]').forEach(el=>{
     const k='fc-ed-'+el.dataset.edid;
