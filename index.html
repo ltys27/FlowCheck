@@ -549,70 +549,70 @@ nav button.active{color:var(--acc)}
 
 // ══ DATA ══
 const DEFAULT_CL = [
-  { section:'PRE-DEPARTURE', items:[
-    {id:'fuel-photo', label:'Take picture of Fuel', notes:null},
-    {id:'stamp', label:'STAMP', notes:null},
+  { section:'PREPARATION & CHECKS', items:[
+    {id:'fuel-photo', label:'Take Picture of Fuel Page', notes:null},
     {id:'ecrew', label:'Sign on eCrew', notes:null},
-    {id:'fuel-tl', label:'Fuel Page, Tech Log + Chocks on time, ADDL, CDL, OEB', notes:[
-      'Stay-over checks if aircraft on ground >36 hrs',
-      'Engine warm-up: 5 mins (first flight) / 2 mins (subsequent)',
-      'CAT ABCD: Nil / 3 / 10 / 120 — check validity + any recurring DDL?',
+    {id:'license', label:'License Check', notes:null},
+    {id:'data-init', label:'DATA (Nav Database), INIT (F-PLN INIT*), ECAM RCL & STS', notes:null},
+    {id:'cert', label:'Certificate Folder, ADMIRAL WN', notes:[
+      'AOC, Disinsection, Maintenance x 2, Insurance',
+      'Registration (no expiry), Airworthiness, Station License',
+      'Weight & Balance (no expiry), Noise (no expiry)'
+    ]},
+    {id:'elb-ddl', label:'ELB DDL, CDL, EFB Date, OEB', notes:[
+      'Stay-over checks (36 hrs)',
+      'CAT ABCD: Nil, 3, 10, 120 / validity / any recurring DDL?',
+      'EFB Date',
       'OEB review'
     ]},
-    {id:'cert', label:'Certificate Folder — ADMIRAL WN', notes:[
-      'AOC · Disinfection Certificate · Maintenance Release ×2 · Insurance',
-      'Registration (no expiry) · Certificate of Airworthiness · Station License',
-      'Weight & Balance (no expiry) · Noise Certificate (no expiry)'
-    ]},
-    {id:'license', label:'License Check', notes:null},
-    {id:'awnf', label:'AWNF — Aircraft, Weather, NOTAMs, Fuel', notes:null},
-    {id:'mcdu', label:'MCDU Request CFP', notes:null},
-  ]},
-  { section:'COCKPIT SETUP', items:[
-    {id:'prelim', label:'Preliminary Cockpit Prep', notes:[
-      'Pumps ALL ON',
-      'APU Bleed ON',
-      'PACK FLOW LO: <141 pax (A320) / <168 pax (A321)'
+    {id:'awnf', label:'Briefing (FO & CC if available) C.A.W.N.F. — Clear FO for walkaround checks & refuelling once he is done with Prelim Cockpit Prep', notes:null},
+    {id:'prelim', label:'Cockpit Prep (Transit Check)', notes:[
+      'OVERHEAD PANEL',
+      '· RCDR Test (RCDR ON / P.BRK ON / ACP INT & Vol lo / LSPKR OFF / CVR test)',
+      '· Lights & Signs',
+      '· PACK FLOW (LO <141 A320 / <168 A321)',
+      '· Batt (<60A <10s)',
+      '· Fuel Pumps ON & Fuel X-Feed (EDTO)',
+      '· Eng Fire (7 indications)',
+      'CENTRE PANEL',
+      '· HF Radio Check if required (no refuelling in progress)',
+      '· PA Check',
+      '· ATC (ATC STBY / ALT RPTG ON / SYS 1/2 / 2000 / TCAS ABV/STBY)'
     ]},
     {id:'cc-brief', label:'Cabin Crew Briefing: AWNF CPTS (Cargo, PWD, Time, Stn Colour)', notes:[
-      'AWNF: Aircraft status · Weather · NOTAMs · Fuel',
-      'CPTS: Cargo (NOTOC) · PWD pax · Time (ETD + flight time) · Station Colour',
       'A320 iPad — Aircraft: — | Username: — | Password: —'
     ]},
-    {id:'cm1', label:'CM1 Flow (Oxy Check, Door Check)', notes:null},
-    {id:'setup-box', label:'Setup Box — Performance / Fuel / IRS', notes:[
-      'Min fuel to dispatch = Taxi + Burn-off + SFR (not less than 60 min hold over dest)',
-      'Weight limited → use shortest runway option',
-      'Tankering = 400 + Sector 1 Trip Fuel + Sector 2 Fuel Uplift',
-      'IRS: ±2° full alignment required at WMKK, WBGG, WIBB'
+    {id:'setup-box', label:'Setup Box', notes:[
+      'Min fuel to dispatch = Taxi + Burn-off + Standard Fuel Reserve, but not less than 60 min holding over destination',
+      'Weight limited: use shortest',
+      'Tankering = 400 + Sector 1 Trip + Sector 2 Fuel Uplift',
+      'IRS ±2° full alignment (WBKK, WBGG, WIBB, WALL)'
     ]},
-    {id:'oxy', label:'Oxygen Test', notes:null},
-    {id:'instr', label:'Instrument Checks', notes:[
-      'CLB  ·  NAV  ·  BLUE  ·  1FD2',
-      'Q1013  ·  Elevation 8',
-      'ND: HDG  ·  STBY COMPASS  ·  ISIS',
-      'STS  ·  PRESSURE AUTO',
-      'IRS DRIFT: 0  ·  Gross Error Check'
-    ]},
+    {id:'oxy', label:'Oxygen Check', notes:null},
+    {id:'instr', label:'Instrument Check (Standby Compass ±8° (FCF docs))', notes:null},
   ]},
-  { section:'BRIEFINGS & PA', items:[
-    {id:'tkoff-b', label:'Takeoff Briefing', notes:[
-      '"Call out any malfunction or warning. Before V1 I will call STOP or GO. I will reject for engine failure, any warning, caution or condition significantly affecting safety of flight."'
-    ]},
-    {id:'dep-b', label:'Departure Briefing', notes:null},
-    {id:'pa-do', label:'PA — Captain\'s Welcome Announcement', notes:[
-      'Go to PA Scripts tab to fill in flight details and generate the full script'
-    ]},
-    {id:'b4-start', label:'Before Start Checks (B4 Start)', notes:null},
-  ]},
-  { section:'SIGNATURES', items:[
-    {id:'s-tl', label:'Sign Tech Log', notes:null},
-    {id:'s-fld', label:'Sign FLD — 2 signatures with time', notes:null},
-    {id:'s-notoc', label:'Sign NOTOC (e-NOTOC via Aviator)', notes:null},
+  { section:'DISPATCH DOCUMENTS TO SIGN & RETAIN', items:[
     {id:'s-sep', label:'Sign SEP Equipment', notes:null},
     {id:'s-sec', label:'Sign Security', notes:null},
-    {id:'s-av', label:'Sign Aviator + Updated Fuel / ZFW', notes:null},
-    {id:'s-fr', label:'Fuel Receipt?', notes:null},
+    {id:'s-fr', label:'Fuel Receipt (Picture)', notes:null},
+    {id:'s-fld', label:'Sign FLD (2 signatures, with time)', notes:null},
+    {id:'s-av', label:'Sign AVIATOR (FZFW + Fuel + Extra Reason)', notes:null},
+    {id:'s-notoc', label:'Sign NOTOC', notes:null},
+    {id:'s-tl', label:'Sign ELB (after FO walkaround)', notes:null},
+  ]},
+  { section:'BRIEFS & PA', items:[
+    {id:'instr-chk', label:'Instrument Checks (PFDs Alt 20 ft, ISIS–PFD Alt 100 ft, PFD HDG 5°)', notes:null},
+    {id:'tkoff-b', label:'Takeoff Briefing', notes:null},
+    {id:'dep-b', label:'Departure Briefing', notes:null},
+    {id:'pa-do', label:'PA', notes:null},
+    {id:'atc-clr', label:'ATC Clearance (Delivery)', notes:null},
+    {id:'b4-start', label:'B4 Start Checklist', notes:null},
+    {id:'atc-push', label:'ATC (Ground for pushback) — Below the line — Call Headset guy', notes:null},
+  ]},
+  { section:'END FLIGHT DISPATCH DOCUMENTS TO SIGN', items:[
+    {id:'e-elb', label:'*ELB — Times, NIL DEFECT, Sign', notes:null},
+    {id:'e-fuel', label:'FUEL Log', notes:null},
+    {id:'e-av', label:'*AVIATOR — Journey Log ✔️ Sign & Close', notes:null},
   ]},
 ];
 
@@ -683,6 +683,29 @@ const DEFAULT_PREP = [
 ];
 
 // ══ STATE ══
+// Bump CL_VER when DEFAULT_CL is rewritten: a checklist customised on the device
+// would otherwise hide the new defaults. The old one is kept as a backup, and the
+// device-only iPad login note is carried across.
+const CL_VER = 2;
+function migrateCL(){
+  try{
+    if(+localStorage.getItem('fc-cl-ver')>=CL_VER) return;
+    const old = localStorage.getItem('fc-custom');
+    if(old){
+      localStorage.setItem('fc-custom-bak', old);
+      localStorage.removeItem('fc-custom');
+      const isLogin = n=>/^A320 iPad/.test(n);
+      const keep = JSON.parse(old).flatMap(s=>s.items).flatMap(i=>i.notes||[]).find(isLogin);
+      if(keep){
+        const d = JSON.parse(JSON.stringify(DEFAULT_CL));
+        const it = d.flatMap(s=>s.items).find(i=>i.id==='cc-brief');
+        it.notes = it.notes.map(n=>isLogin(n)?keep:n);
+        localStorage.setItem('fc-custom', JSON.stringify(d));
+      }
+    }
+    localStorage.setItem('fc-cl-ver', CL_VER);
+  }catch{}
+}
 function getPrepData() {
   if (window.FC_EXPORT_PREP) return window.FC_EXPORT_PREP;
   try{ const s = localStorage.getItem('fc-prep'); if(s) return JSON.parse(s); }catch{}
@@ -690,6 +713,7 @@ function getPrepData() {
 }
 function getActiveData() {
   if (window.FC_EXPORT) return window.FC_EXPORT;
+  migrateCL();
   const s = localStorage.getItem('fc-custom');
   return s ? JSON.parse(s) : JSON.parse(JSON.stringify(DEFAULT_CL));
 }
