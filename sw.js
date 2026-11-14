@@ -1,4 +1,4 @@
-const CACHE = 'flowcheck-v18';
+const CACHE = 'flowcheck-v19';
 // The app itself: install fails (and the previous version keeps running) unless all of these are stored.
 const CORE = ['./','./index.html','./manifest.json','./icon.svg','./icon-192.png','./icon-512.png'];
 // Reference screenshots: stored one by one so a single failed download cannot block the install.
@@ -29,7 +29,9 @@ self.addEventListener('activate', e => {
 // stored for next time; a page load that cannot be served falls back to the app itself.
 self.addEventListener('fetch', e => {
   const req = e.request;
-  if (req.method !== 'GET' || new URL(req.url).origin !== self.location.origin) return;
+  const url = new URL(req.url);
+  // flight.json is live data: never serve it from the cache
+  if (req.method !== 'GET' || url.origin !== self.location.origin || url.pathname.endsWith('/flight.json')) return;
   e.respondWith(caches.open(CACHE).then(async c => {
     const hit = await c.match(req, {ignoreSearch:true});
     if (hit) return hit;

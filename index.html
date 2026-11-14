@@ -183,6 +183,18 @@ nav button.active{color:var(--acc)}
 .qc .qbody{margin-top:22px}
 .qc.min .qbody{display:none}
 .qc.min .qtog .chev{transform:none}
+/* flight data bar */
+.fdbar{margin:4px 14px 8px;background:var(--bg2);border:1px solid var(--bdr);border-radius:var(--r);padding:10px 12px}
+.fdbar .fdt{display:flex;align-items:center;gap:8px}
+.fdbar .fds{flex:1;min-width:0;font-size:11px;color:var(--t3);line-height:1.4}
+.fdbar .fds b{display:block;font-size:10px;letter-spacing:1.1px;text-transform:uppercase;color:var(--acc)}
+.fdbar .fds .err{color:#fca5a5}
+.fdbtn{background:var(--bg4);border:1px solid var(--bdr);border-radius:7px;color:var(--t2);font-size:12px;font-weight:700;padding:7px 9px;cursor:pointer;flex-shrink:0}
+.fdchips{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.fdchip{flex:1;min-width:120px;background:var(--bg4);border:1px solid var(--bdr);border-radius:8px;padding:7px 9px;cursor:pointer;color:var(--t2);font-size:12px;line-height:1.35;text-align:left}
+.fdchip b{display:block;color:var(--text);font-size:13px}
+.fdchip.on{border-color:var(--acc);background:rgba(255,199,44,.07)}
+.fdchip.on b{color:var(--acc)}
 /* tools */
 .wres{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
 .wbox{background:var(--bg4);border:1px solid var(--bdr);border-radius:9px;padding:10px 12px}
@@ -388,6 +400,7 @@ nav button.active{color:var(--acc)}
 <div id="page-pa" class="page">
 <div class="pgt" data-edid="pgt-pa">PA Scripts &amp; Announcements</div>
 <div class="ed-hint">✏ Tap any yellow-outlined area to edit</div>
+<div id="fd-bar" class="fdbar"></div>
 
 <!-- Welcome -->
 <div class="card" id="c-w">
@@ -1526,8 +1539,8 @@ function toggleCard(elOrId,cb){
 
 // ══ PA — WELCOME ══
 function gv(id){ return document.getElementById(id).value.trim(); }
-function togDelay(){ delayOn=!delayOn; document.getElementById('ts-delay').classList.toggle('on',delayOn); document.getElementById('delay-f').style.display=delayOn?'block':'none'; renderWelcome(); }
-function fi(v,l){ return v?`<span class="fill">${v}</span>`:`<span class="blank">[${l}]</span>`; }
+function togDelay(){ delayOn=!delayOn; document.getElementById('ts-delay').classList.toggle('on',delayOn); document.getElementById('delay-f').style.display=delayOn?'block':'none'; renderWelcome(); savePA(); }
+function fi(v,l){ return v?`<span class="fill">${hx(v)}</span>`:`<span class="blank">[${l}]</span>`; }
 function renderWelcome(){
   const g=gv('w-g'), wx=gv('w-wx');
   document.getElementById('wx-f2').classList.toggle('show',wx==='2');
@@ -1546,7 +1559,7 @@ function togPA(k){
   paOn[k]=!paOn[k];
   document.getElementById('ts-'+k).classList.toggle('on',paOn[k]);
   const f=document.getElementById('pa-'+k); if(f) f.classList.toggle('show',paOn[k]);
-  renderArrival();
+  renderArrival(); savePA();
 }
 function renderArrival(){
   const dest=gv('a-dest'), D=l=>fi(dest,l||'Destination');
@@ -1585,6 +1598,110 @@ function renderGA(){
 // ══ DEFECT FLOW CHARTS ══
 function setFC(n){ [1,2].forEach(i=>{ document.getElementById('fct'+i).classList.toggle('on',i===n); document.getElementById('fc'+i).style.display=i===n?'':'none'; }); }
 
+// ══ PA — REMEMBER FIELDS ══
+// Everything typed on the PA tab is kept on the device, so it survives iOS closing the app.
+let paReady=false;
+function paFields(){ return [...document.querySelectorAll('#page-pa input[id],#page-pa select[id]')]; }
+function renderPA(){ renderWelcome(); renderArrival(); renderDelay(); renderGA(); renderTurb(); }
+function savePA(){
+  if(!paReady) return;
+  const o={f:{},t:{delay:delayOn,td:paOn.td,lt:paOn.lt,scp:paOn.scp}};
+  paFields().forEach(e=>o.f[e.id]=e.value);
+  try{ localStorage.setItem('fc-pa',JSON.stringify(o)); }catch{}
+}
+function loadPA(){
+  try{
+    const o=JSON.parse(localStorage.getItem('fc-pa')||'null');
+    if(o){
+      paFields().forEach(e=>{ if(o.f&&o.f[e.id]!=null) e.value=o.f[e.id]; });
+      if(o.t&&o.t.delay) togDelay();
+      ['td','lt','scp'].forEach(k=>{ if(o.t&&o.t[k]) togPA(k); });
+    }
+  }catch{}
+  paReady=true; renderPA();
+}
+function resetPA(){
+  paFields().forEach(e=>{ if(e.tagName==='SELECT') e.selectedIndex=0; else e.value=''; });
+  if(delayOn) togDelay();
+  ['td','lt','scp'].forEach(k=>{ if(paOn[k]) togPA(k); });
+}
+function clearPA(){
+  if(!confirm('Clear all PA fields for a new flight?')) return;
+  resetPA();
+  if(FD){ FD.sector=-1; fdStore(); }
+  renderPA(); savePA(); fdRender();
+}
+
+// ══ PA — FLIGHT DATA AUTO-FILL ══
+// The app reads a small JSON file from an address set on this device (⚙) and fills the PA
+// fields from it. Whatever prepares the flight (e.g. the bug-card model) only has to keep
+// that file up to date. Format — one object per sector:
+//   {"updated":"2026-11-14T02:00Z","sectors":[{"flight":"TR438","from":"Singapore","dest":"Kuching",
+//     "with":"Capt Thierry","cic":"Aliff Haiqal","time":"1 hour 45 minutes","greeting":"morning"}]}
+// Optional per sector: wx (1–3), arr_wx, temp, landing, taxi.
+let FD=null, fdLast=0, fdBusy=false;
+function fdCfg(){ try{ return JSON.parse(localStorage.getItem('fc-src')||'{}'); }catch{ return {}; } }
+function fdStore(){ try{ localStorage.setItem('fc-flight',JSON.stringify(FD)); }catch{} }
+function fdPick(s,...keys){ for(const k of keys){ if(s[k]!=null&&String(s[k]).trim()!=='') return String(s[k]).trim(); } return null; }
+function fdApply(i){
+  const s=FD&&FD.sectors[i]; if(!s) return;
+  const set=(id,v)=>{ if(v==null) return; const e=document.getElementById(id); if(!e) return;
+    if(e.tagName==='SELECT'){ if([...e.options].some(o=>o.value===v)) e.value=v; } else e.value=v; };
+  const flight=fdPick(s,'flight','flight_no'), from=fdPick(s,'from','origin','dep'), dest=fdPick(s,'dest','destination','to');
+  set('w-fn',flight); set('w-dest',dest); set('w-wc',from);
+  set('w-fo',fdPick(s,'with','flight_deck','fo')); set('w-cic',fdPick(s,'cic'));
+  set('w-ft',fdPick(s,'time','flight_time'));
+  const g=fdPick(s,'greeting'); set('w-g',g&&g.toLowerCase());
+  set('w-wx',fdPick(s,'wx'));
+  set('a-dest',dest); set('a-from',from); set('d-dest',dest);
+  set('a-wx',fdPick(s,'arr_wx','arrival_wx')); set('a-tmp',fdPick(s,'temp')); set('a-ldg',fdPick(s,'landing','eta')); set('a-tx',fdPick(s,'taxi'));
+  FD.sector=i; fdStore(); renderPA(); savePA(); fdRender();
+}
+async function fdFetch(manual){
+  const c=fdCfg();
+  if(!c.url){ if(manual) fdSetup(); return; }
+  if(fdBusy||(!manual&&Date.now()-fdLast<60000)) return;
+  fdBusy=true; fdLast=Date.now(); let err=null;
+  try{
+    const hd={}; if(c.token){ hd.Authorization='Bearer '+c.token; hd.Accept='application/vnd.github.raw+json'; }
+    const r=await fetch(c.url,{headers:hd,cache:'no-store'});
+    if(!r.ok) throw new Error(r.status===404?'file not found (404)':r.status===401||r.status===403?'access refused — check the token':'HTTP '+r.status);
+    const raw=(await r.text()).trim(); let d;
+    try{ d=JSON.parse(raw); }catch{ throw new Error('file is not valid JSON'); }
+    const sectors=(Array.isArray(d)?d:Array.isArray(d.sectors)?d.sectors:[d]).filter(s=>s&&typeof s==='object'&&fdPick(s,'flight','flight_no','dest','destination','to'));
+    if(!sectors.length) throw new Error('no flight found in the file');
+    if(!FD||FD.raw!==raw){ FD={raw,sectors,updated:d.updated||null,sector:0,at:Date.now()}; resetPA(); fdApply(0); }   // new data: drop the last flight's entries, fill sector 1
+    else { FD.at=Date.now(); fdStore(); }                                                               // unchanged: leave your edits alone
+  }catch(e){ err=navigator.onLine===false?'offline — showing last loaded data':e.message; }
+  fdBusy=false; fdRender(err);
+}
+function fdSetup(){
+  const c=fdCfg();
+  const url=prompt('Address of the flight data file (leave empty to switch auto-fill off):',c.url||'');
+  if(url===null) return;
+  if(!url.trim()){ localStorage.removeItem('fc-src'); fdRender(); return; }
+  const token=prompt('Access token, if the file is private (kept on this device only). Leave empty for none:',c.token||'');
+  if(token===null) return;
+  localStorage.setItem('fc-src',JSON.stringify({url:url.trim(),token:token.trim()}));
+  fdLast=0; fdFetch(true);
+}
+function fdRender(err){
+  const bar=document.getElementById('fd-bar'), c=fdCfg();
+  const when=t=>new Date(t).toLocaleString([], {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});
+  let st=!c.url?'Auto-fill is off — tap ⚙ to set the data file address':FD?`Checked ${hx(when(FD.at))}${FD.updated?' · file dated '+hx(FD.updated):''}`:'No flight data loaded yet';
+  if(err) st+=`<br><span class="err">${hx(err)}</span>`;
+  let o=`<div class="fdt"><div class="fds"><b>Flight data</b>${st}</div>${c.url?'<button class="fdbtn" onclick="fdFetch(true)">⟳</button>':''}<button class="fdbtn" onclick="fdSetup()">⚙</button><button class="fdbtn" onclick="clearPA()">Clear</button></div>`;
+  if(FD&&FD.sectors.length) o+='<div class="fdchips">'+FD.sectors.map((s,i)=>`<button class="fdchip${i===FD.sector?' on':''}" onclick="fdApply(${i})"><b>${hx(fdPick(s,'flight','flight_no')||'Sector '+(i+1))}</b>${hx(fdPick(s,'from','origin','dep')||'?')} → ${hx(fdPick(s,'dest','destination','to')||'?')}</button>`).join('')+'</div>';
+  bar.innerHTML=o;
+}
+function fdInit(){
+  try{ FD=JSON.parse(localStorage.getItem('fc-flight')||'null'); }catch{ FD=null; }
+  fdRender(); fdFetch(false);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) fdFetch(false); });
+  document.getElementById('page-pa').addEventListener('input',savePA);
+  document.getElementById('page-pa').addEventListener('change',savePA);
+}
+
 // ══ PA — TURBULENCE ══
 function setTurb(n){
   turbN=n;
@@ -1609,7 +1726,7 @@ function cp(id,btn){ const t=document.getElementById(id).innerText; if(navigator
 // ══ INIT ══
 document.addEventListener('DOMContentLoaded',async()=>{
   useList('prep'); renderCL(); useList('checklist'); renderCL(); renderECAM();
-  renderWelcome(); renderArrival(); renderDelay(); renderGA(); renderTurb(); renderLMC(); renderWind();
+  loadPA(); fdInit(); renderLMC(); renderWind();
   if(localStorage.getItem('fc-lmc-min')==='1') togLMC(true);
   document.getElementById('pill').style.display='';
   document.getElementById('pbw').style.display='';
