@@ -494,7 +494,17 @@ nav button.active{color:var(--acc)}
 <div class="qg">
   <div class="qc" data-edid="qr-1"><div class="qt">Pax Weights</div><div class="qr"><span class="ql">Adult</span><span class="qv">77 kg</span></div><div class="qr"><span class="ql">Child</span><span class="qv">40 kg</span></div><div class="qr"><span class="ql">Infant</span><span class="qv">10 kg</span></div></div>
   <div class="qc" data-edid="qr-2"><div class="qt">APU Fuel Burn</div><div class="qr"><span class="ql">No Bleed</span><span class="qv">80 kg/hr</span></div><div class="qr"><span class="ql">With Bleed</span><span class="qv">100 kg/hr</span></div></div>
-  <div class="qc full" data-edid="qr-5"><div class="qt">Hard Landing Threshold</div><div class="qr"><span class="ql">Standard</span><span class="qv" style="color:#fca5a5">&gt; 2.6 G</span></div><div class="qr"><span class="ql">Overweight (OVW)</span><span class="qv" style="color:#fca5a5">&gt; 1.7 G</span></div><div class="qn">MCDU → AIDS → Stored Reports → Load Reports 15</div></div>
+  <div class="qc full" id="qr-lmc"><div class="qt">LMC — Copy &amp; Send</div>
+    <div class="fg">
+      <div class="f"><label>No. of Pax</label><input id="lmc-n" type="number" inputmode="numeric" min="0" value="1" oninput="renderLMC()"></div>
+      <div class="f"><label>Type</label><select id="lmc-t" onchange="renderLMC()"><option>ADULT</option><option>CHILD</option><option>INFANT</option></select></div>
+      <div class="f"><label>On / Off</label><select id="lmc-d" onchange="renderLMC()"><option>OFF</option><option>ON</option></select></div>
+      <div class="f"><label>Bags</label><input id="lmc-b" placeholder="NIL" oninput="renderLMC()" autocapitalize="characters"></div>
+      <div class="f full"><label>TOB</label><input id="lmc-tob" inputmode="numeric" placeholder="e.g. 176" oninput="renderLMC()"></div>
+    </div>
+    <div class="pas" id="scr-lmc" style="white-space:pre-line;font-family:'SF Mono','Fira Mono',monospace;font-size:15px;line-height:1.7"></div>
+    <button class="btn-copy" onclick="cp('scr-lmc',this)">📋 &nbsp;Copy LMC</button>
+  </div>
   <div class="qc full" data-edid="qr-13"><div class="qt">Expectant Mothers</div><div class="qr"><span class="ql">MC required</span><span class="qv">After 28th week</span></div><div class="qr"><span class="ql">Journey completed by</span><span class="qv">36th week</span></div><div class="qr"><span class="ql">Multiple pregnancy</span><span class="qv">32nd week</span></div></div>
 </div>
 </div>
@@ -541,7 +551,6 @@ nav button.active{color:var(--acc)}
 <div class="qg">
   <div class="qc full" data-edid="qr-26"><div class="qt">E-Loadsheet Workflow</div><table class="dtbl"><tr><th>EOBT−</th><th>Action</th></tr><tr><td class="w">−40</td><td>FZFW available <span class="dim">(not received by −30 → send reminder)</span></td></tr><tr><td class="w">−30</td><td>FIT &amp; BO to LCD</td></tr><tr><td class="w">−20</td><td>e-NOTOC <span class="dim">(physical NOTOC by −15)</span></td></tr><tr><td class="w">−12</td><td>E-loadsheet received <span class="dim">(not received by −10 → send reminder)</span></td></tr></table><div class="qsub">Capt reads out only</div><div class="ibox2">Flight No. &nbsp;·&nbsp; ACFT Reg &nbsp;·&nbsp; Date<br>Crew &nbsp;·&nbsp; TOB &nbsp;·&nbsp; BW &amp; BI</div></div>
   <div class="qc full" data-edid="qr-27"><div class="qt">Loadsheet Contingency — Aviator or Load Control Failure</div><ol class="reasons"><li>Loadsheet via ACARS — commander prints and signs</li><li>Submit via Aviator, or email to flightdispatch + EOPS@flyscoot.com</li><li>E-copy to GHA</li></ol><div class="qn">If ACARS is also down: paper loadsheet</div></div>
-  <div class="qc full" data-edid="qr-28"><div class="qt">LMC Template</div><div class="ibox2">04 ADULTS OFF NIL BAGS</div></div>
   <div class="qc full" data-edid="qr-29"><div class="qt">Dangerous Goods</div><div class="qsub">Watt-hour (Wh) rating</div><div class="qr"><span class="ql">mAh given</span><span class="qv">Wh = (mAh × V) / 1000</span></div><div class="qr"><span class="ql">Ah given</span><span class="qv">Wh = Ah × V</span></div><div class="qn">DG table: SEPM — IATA Table 2.3.A</div></div>
 </div>
 </div>
@@ -553,6 +562,7 @@ nav button.active{color:var(--acc)}
   <div class="qc full" data-edid="qr-31"><div class="qt">Crew Rest in Flight Deck</div><ul class="qlst"><li>CRFD taken as part of fatigue management strategy</li></ul></div>
   <div class="qc full" data-edid="qr-11"><div class="qt">Instrument Checks Sequence</div><div class="ibox2">CLB &nbsp;·&nbsp; NAV &nbsp;·&nbsp; BLUE &nbsp;·&nbsp; 1FD2<br>Q1013 &nbsp;·&nbsp; ELEV 8<br>ND: HDG &nbsp;·&nbsp; STBY COMPASS &nbsp;·&nbsp; ISIS<br>STS &nbsp;·&nbsp; PRESSURE AUTO<br>IRS DRIFT: 0 &nbsp;·&nbsp; GROSS ERROR CHECK</div></div>
   <div class="qc full" data-edid="qr-12"><div class="qt">Certificate Folder — ADMIRAL WN</div><div style="font-size:13px;line-height:2;color:var(--t2)"><div>✈ AOC &nbsp;·&nbsp; Disinsection &nbsp;·&nbsp; Maintenance Release ×2 &nbsp;·&nbsp; Insurance</div><div>✈ Registration <span style="color:var(--t3)">(no expiry)</span> &nbsp;·&nbsp; Airworthiness &nbsp;·&nbsp; Station License</div><div>✈ Weight &amp; Balance <span style="color:var(--t3)">(no expiry)</span> &nbsp;·&nbsp; Noise <span style="color:var(--t3)">(no expiry)</span></div></div></div>
+  <div class="qc full" data-edid="qr-5"><div class="qt">Hard Landing Threshold</div><div class="qr"><span class="ql">Standard</span><span class="qv" style="color:#fca5a5">&gt; 2.6 G</span></div><div class="qr"><span class="ql">Overweight (OVW)</span><span class="qv" style="color:#fca5a5">&gt; 1.7 G</span></div><div class="qn">MCDU → AIDS → Stored Reports → Load Reports 15</div></div>
 </div>
 </div>
 </div><!-- /page-qr -->
@@ -1037,6 +1047,15 @@ function filterQR(){
   document.getElementById('qr-none').style.display=any?'none':'block';
 }
 
+// ══ LMC ══
+function renderLMC(){
+  const pad=v=>String(v).padStart(2,'0'), pl={ADULT:'ADULTS',CHILD:'CHILDREN',INFANT:'INFANTS'};
+  const n=parseInt(gv('lmc-n'),10), t=gv('lmc-t'), b=gv('lmc-b').toUpperCase();
+  const pax=isNaN(n)?`XX ${t}`:`${pad(n)} ${n===1?t:pl[t]}`;
+  const bags=!b||b==='NIL'||b==='0'?'NIL BAGS':/^\d+$/.test(b)?`${pad(+b)} ${+b===1?'BAG':'BAGS'}`:`${b} BAGS`;
+  document.getElementById('scr-lmc').textContent=`${pax} ${gv('lmc-d')} ${bags}\nTOB ${gv('lmc-tob')}`.trimEnd();
+}
+
 // ══ ECAM ══
 function renderECAM(){
   const c=document.getElementById('ecamContent'); c.innerHTML='';
@@ -1422,12 +1441,12 @@ function renderTurb(){
 }
 
 // ══ COPY ══
-function cp(id,btn){ const t=document.getElementById(id).innerText; if(navigator.clipboard){navigator.clipboard.writeText(t).then(()=>{btn.innerHTML='✓ Copied!';setTimeout(()=>btn.innerHTML='📋 &nbsp;Copy Script',2000);});} }
+function cp(id,btn){ const t=document.getElementById(id).innerText; if(navigator.clipboard){navigator.clipboard.writeText(t).then(()=>{ if(!btn.dataset.lbl) btn.dataset.lbl=btn.innerHTML; btn.innerHTML='✓ Copied!'; setTimeout(()=>btn.innerHTML=btn.dataset.lbl,2000); });} }
 
 // ══ INIT ══
 document.addEventListener('DOMContentLoaded',async()=>{
   useList('prep'); renderCL(); useList('checklist'); renderCL(); renderECAM();
-  renderWelcome(); renderArrival(); renderDelay(); renderGA(); renderTurb();
+  renderWelcome(); renderArrival(); renderDelay(); renderGA(); renderTurb(); renderLMC();
   document.getElementById('pill').style.display='';
   document.getElementById('pbw').style.display='';
   updateProg();
