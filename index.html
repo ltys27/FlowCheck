@@ -49,7 +49,7 @@ main{flex:1;overflow:hidden;position:relative}
 
 /* nav */
 nav{height:var(--nav);min-height:var(--nav);background:var(--bg2);border-top:1px solid var(--bdr);display:flex;flex-shrink:0;padding-bottom:env(safe-area-inset-bottom,0)}
-nav button{flex:1;background:none;border:none;color:var(--t3);font-size:8.5px;font-weight:600;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;transition:color .15s;text-transform:uppercase;letter-spacing:.2px;padding:0 2px}
+nav button{flex:1;background:none;border:none;color:var(--t3);font-size:8px;font-weight:600;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;transition:color .15s;text-transform:uppercase;letter-spacing:0;padding:0 1px;min-width:0}
 nav button .ni{font-size:19px;line-height:1}
 nav button.active{color:var(--acc)}
 
@@ -313,6 +313,14 @@ nav button.active{color:var(--acc)}
   </div>
 </div>
 
+<!-- ════ FLIGHT PREP ════ -->
+<div id="page-prep" class="page">
+  <div id="prepContent"></div>
+  <div class="reset-wrap">
+    <button class="btn-reset" onclick="doReset()">↺ &nbsp;Reset Flight Prep for New Flight</button>
+  </div>
+</div>
+
 <!-- ════ PA SCRIPTS ════ -->
 <div id="page-pa" class="page">
 <div class="pgt" data-edid="pgt-pa">PA Scripts &amp; Announcements</div>
@@ -463,6 +471,7 @@ nav button.active{color:var(--acc)}
 
 <!-- ── Nav ── -->
 <nav>
+  <button id="nav-prep" onclick="sw('prep')"><span class="ni">🗓</span><span>Prep</span></button>
   <button id="nav-checklist" class="active" onclick="sw('checklist')"><span class="ni">☑</span><span>Checklist</span></button>
   <button id="nav-pa" onclick="sw('pa')"><span class="ni">📢</span><span>PA Scripts</span></button>
   <button id="nav-briefings" onclick="sw('briefings')"><span class="ni">📋</span><span>Briefings</span></button>
@@ -639,13 +648,59 @@ const REF_PAGES = [
   {n:19,l:'Turbulence Management Framework'},{n:20,l:'ECAM Reset Table — A320/A320N/A321N'},
 ];
 
+const DEFAULT_PREP = [
+  { section:'FLIGHT PREP', items:[
+    {id:'fp-flight', label:'!Flight', notes:null},
+    {id:'fp-pulse', label:'Flight Pulse — get the landing times', notes:null},
+    {id:'fp-altn', label:'Enroute Alternates', notes:null},
+    {id:'fp-ewas', label:'EWAS', notes:null},
+    {id:'fp-aerowx', label:'Setup AeroWeather', notes:null},
+    {id:'fp-omc', label:'OMC', notes:null},
+    {id:'fp-station', label:'Station Info', notes:null},
+    {id:'fp-jepp', label:'Jeppesen', notes:null},
+    {id:'fp-paper', label:'Paper for print', notes:null},
+    {id:'fp-windy', label:'Windy app', notes:null},
+    {id:'fp-alarm', label:'Check-in alarm', notes:null},
+    {id:'fp-flysmart', label:'FlySmart', notes:null},
+    {id:'fp-notam', label:'NOTAM', notes:null},
+    {id:'fp-msg', label:'Message Capt', notes:null},
+    {id:'fp-bug', label:'Bugcard', notes:null},
+    {id:'fp-pa', label:'PA edit', notes:null},
+  ]},
+  { section:'FLIGHT DAY', items:[
+    {id:'fd-ewas', label:'EWAS', notes:null},
+    {id:'fd-ecrew', label:'eCrew for pax', notes:null},
+    {id:'fd-windy', label:'Windy app', notes:null},
+    {id:'fd-rwy', label:'Rwy in use in SG', notes:null},
+    {id:'fd-fr24', label:'Check FR24 flight', notes:null},
+  ]},
+  { section:'PRINT OUT', items:[
+    {id:'po-oeb', label:'OEB', notes:null},
+    {id:'po-config', label:'Config summary', notes:null},
+    {id:'po-wx', label:'Wx', notes:null},
+    {id:'po-fuel', label:'Fuel', notes:null},
+  ]},
+];
+
 // ══ STATE ══
+function getPrepData() {
+  if (window.FC_EXPORT_PREP) return window.FC_EXPORT_PREP;
+  try{ const s = localStorage.getItem('fc-prep'); if(s) return JSON.parse(s); }catch{}
+  return JSON.parse(JSON.stringify(DEFAULT_PREP));
+}
 function getActiveData() {
   if (window.FC_EXPORT) return window.FC_EXPORT;
   const s = localStorage.getItem('fc-custom');
   return s ? JSON.parse(s) : JSON.parse(JSON.stringify(DEFAULT_CL));
 }
-let AD = getActiveData();
+// Two checklists share one renderer: AD always points at the list on screen.
+const LISTS = {
+  checklist:{data:getActiveData(), key:'fc-custom', el:'clContent', pfx:'sh', name:'checklist'},
+  prep:{data:getPrepData(), key:'fc-prep', el:'prepContent', pfx:'psh', name:'Flight Prep'}
+};
+let CUR = LISTS.checklist;
+let AD = CUR.data;
+function useList(n){ CUR=LISTS[n]; AD=CUR.data; }
 let checked = JSON.parse(localStorage.getItem('fc-chk')||'{}');
 let expanded = {};
 let editMode = false;
@@ -653,7 +708,7 @@ let turbN = 1, delayOn=false, sgOn=false, scpOn=false;
 let refN = 1, touchX = 0;
 let nmSI = 0, nmII = 0;
 
-function saveAD(){ localStorage.setItem('fc-custom', JSON.stringify(AD)); }
+function saveAD(){ localStorage.setItem(CUR.key, JSON.stringify(AD)); }
 function saveChk(){ localStorage.setItem('fc-chk', JSON.stringify(checked)); }
 function dc(o){ return JSON.parse(JSON.stringify(o)); }
 
@@ -663,19 +718,20 @@ function sw(name){
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
   document.getElementById('nav-'+name).classList.add('active');
-  const isCL = name==='checklist';
+  const isCL = name in LISTS;
+  if(isCL){ useList(name); updateProg(); }
   document.getElementById('pill').style.display = isCL ? '' : 'none';
   document.getElementById('pbw').style.display = isCL ? '' : 'none';
 }
 
 // ══ CHECKLIST ══
 function renderCL(){
-  const c = document.getElementById('clContent');
+  const c = document.getElementById(CUR.el);
   c.innerHTML='';
   AD.forEach((sec,si)=>{
     const done = sec.items.filter(i=>checked[i.id]).length;
     const h = document.createElement('div');
-    h.className='sh'; h.id='sh'+si;
+    h.className='sh'; h.id=CUR.pfx+si;
     h.innerHTML=`<span class="sh-title">${sec.section}</span><span class="sh-count">${done}/${sec.items.length}</span><button class="sh-edit" onclick="renSec(${si})">✎</button>`;
     c.appendChild(h);
     sec.items.forEach((item,ii)=>{
@@ -722,7 +778,7 @@ function updSecCount(id){
   AD.forEach((sec,si)=>{
     if(!sec.items.find(i=>i.id===id)) return;
     const done=sec.items.filter(i=>checked[i.id]).length;
-    const el=document.getElementById('sh'+si);
+    const el=document.getElementById(CUR.pfx+si);
     if(el) el.querySelector('.sh-count').textContent=`${done}/${sec.items.length}`;
   });
 }
@@ -731,7 +787,7 @@ function updateProg(){
   document.getElementById('pill').textContent=`${d}/${t}`;
   document.getElementById('pb').style.width=(t?Math.round(d/t*100):0)+'%';
 }
-function doReset(){ if(!confirm('Reset all checklist items for a new flight?')) return; checked={}; saveChk(); renderCL(); }
+function doReset(){ if(!confirm(`Reset all ${CUR.name} items for a new flight?`)) return; AD.forEach(s=>s.items.forEach(i=>delete checked[i.id])); saveChk(); renderCL(); }
 
 // ══ EDIT MODE ══
 function toggleEdit(){
@@ -808,8 +864,7 @@ function closeNM(){ document.getElementById('notes-modal').classList.remove('sho
 async function exportApp(){
   try{
     const src=await fetch('./index.html').then(r=>r.text());
-    const data=JSON.stringify(AD);
-    const out=src.replace('// FC_EXPORT_PLACEHOLDER',`window.FC_EXPORT=${data};`);
+    const out=src.replace('// FC_EXPORT_PLACEHOLDER',()=>`window.FC_EXPORT=${JSON.stringify(LISTS.checklist.data)};window.FC_EXPORT_PREP=${JSON.stringify(LISTS.prep.data)};`);
     const a=Object.assign(document.createElement('a'),{
       href:URL.createObjectURL(new Blob([out],{type:'text/html;charset=utf-8'})),
       download:'FlowCheck.html'
@@ -1175,7 +1230,7 @@ function cp(id,btn){ const t=document.getElementById(id).innerText; if(navigator
 
 // ══ INIT ══
 document.addEventListener('DOMContentLoaded',async()=>{
-  renderCL(); renderECAM();
+  useList('prep'); renderCL(); useList('checklist'); renderCL(); renderECAM();
   renderWelcome(); renderArrival(); renderGA(); renderTurb();
   document.getElementById('pill').style.display='';
   document.getElementById('pbw').style.display='';
