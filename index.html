@@ -109,6 +109,7 @@ nav button.active{color:var(--acc)}
 .fg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
 .fg.one{grid-template-columns:1fr}
 .f{display:flex;flex-direction:column;gap:3px}
+.f.full{grid-column:1/-1}
 .f.s2{grid-column:1/-1}
 .f label{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.7px;text-transform:uppercase}
 .f input,.f select,.f textarea{background:var(--bg4);border:1px solid var(--bdr);border-radius:7px;color:var(--text);padding:8px 10px;font-size:14px;font-family:inherit;outline:none;width:100%;transition:border-color .15s}
@@ -331,16 +332,18 @@ nav button.active{color:var(--acc)}
   <div class="card-hdr" onclick="toggleCard('c-w',renderWelcome)"><div><div class="ct" data-edid="ct-pa-w">CAPTAIN'S WELCOME ANNOUNCEMENT</div><div class="cs" data-edid="cs-pa-w">Pre-departure · fill fields then read aloud</div></div><div class="chev">▼</div></div>
   <div class="card-body">
     <div class="fg">
-      <div class="f"><label>Greeting</label><select id="w-g" onchange="renderWelcome()"><option value="morning">Good Morning</option><option value="afternoon">Good Afternoon</option><option value="evening">Good Evening</option></select></div>
-      <div class="f"><label>FO / SFO Name</label><input id="w-fo" placeholder="e.g. Jonathan" oninput="renderWelcome()"></div>
-      <div class="f"><label>Flight No.</label><input id="w-fn" placeholder="e.g. TR658" oninput="renderWelcome()"></div>
-      <div class="f"><label>Destination</label><input id="w-dest" placeholder="e.g. Phuket" oninput="renderWelcome()"></div>
-      <div class="f"><label>Flight Time</label><input id="w-ft" placeholder="e.g. 1 hr 30 mins" oninput="renderWelcome()"></div>
-      <div class="f"><label>Weather</label><select id="w-wx" onchange="renderWelcome()"><option value="fair">Fair — slight bumps</option><option value="wx">Weather along route</option></select></div>
-      <div class="f"><label>Crew in Charge (CIC)</label><input id="w-cic" placeholder="CIC Name" oninput="renderWelcome()"></div>
-      <div class="f" style="display:flex;align-items:flex-end"><div class="ftog" style="width:100%"><div class="tsw" id="ts-delay" onclick="togDelay()"></div><label onclick="togDelay()" style="cursor:pointer">Delay?</label></div></div>
+      <div class="f"><label>Greeting</label><select id="w-g" onchange="renderWelcome()"><option value="morning">Good morning</option><option value="afternoon">Good afternoon</option><option value="evening">Good evening</option></select></div>
+      <div class="f"><label>On Flight Deck With Me</label><input id="w-fo" placeholder="e.g. Capt Thierry" oninput="renderWelcome()"></div>
+      <div class="f"><label>Flight No.</label><input id="w-fn" placeholder="e.g. TR438" oninput="renderWelcome()"></div>
+      <div class="f"><label>Destination</label><input id="w-dest" placeholder="e.g. Kuching" oninput="renderWelcome()"></div>
+      <div class="f"><label>Flight Time</label><input id="w-ft" placeholder="e.g. 1 hour 45 minutes" oninput="renderWelcome()"></div>
+      <div class="f"><label>Crew-in-Charge (CIC)</label><input id="w-cic" placeholder="CIC Name" oninput="renderWelcome()"></div>
+      <div class="f"><label>Weather</label><select id="w-wx" onchange="renderWelcome()"><option value="1">1 · Good — light bumps</option><option value="2">2 · Bumps on climb-out</option><option value="3">3 · Weather activity</option></select></div>
+      <div class="f" style="display:flex;align-items:flex-end"><div class="ftog" style="width:100%"><div class="tsw" id="ts-delay" onclick="togDelay()"></div><label onclick="togDelay()" style="cursor:pointer">Delay ≥15 min?</label></div></div>
     </div>
-    <div id="delay-f" style="display:none"><div class="fg"><div class="f"><label>Delay Reason</label><input id="w-dr" placeholder="e.g. late arriving aircraft" oninput="renderWelcome()"></div><div class="f"><label>New ETD</label><input id="w-etd" placeholder="e.g. 14:30" oninput="renderWelcome()"></div></div></div>
+    <div class="tex" id="wx-f2"><div class="fg"><div class="f"><label>Bumps For First (mins)</label><input id="w-wm" placeholder="e.g. 20 to 30" oninput="renderWelcome()"></div><div class="f"><label>Climbing Out Of</label><input id="w-wc" placeholder="e.g. Singapore" oninput="renderWelcome()"></div></div></div>
+    <div class="tex" id="wx-f3"><div class="fg"><div class="f"><label>Activity Where</label><input id="w-ww" placeholder="e.g. out of Singapore / en route" oninput="renderWelcome()"></div><div class="f"><label>Hours Into Flight (optional)</label><input id="w-wh" placeholder="e.g. 1" oninput="renderWelcome()"></div></div></div>
+    <div id="delay-f" style="display:none"><div class="fg"><div class="f"><label>Delay Reason (agreed with GHA)</label><input id="w-dr" placeholder="e.g. late arriving aircraft" oninput="renderWelcome()"></div><div class="f"><label>Depart In (mins)</label><input id="w-etd" placeholder="e.g. 20" oninput="renderWelcome()"></div></div></div>
     <div class="pas" id="scr-w"></div>
     <button class="btn-copy" onclick="cp('scr-w',this)">📋 &nbsp;Copy Script</button>
   </div>
@@ -351,19 +354,37 @@ nav button.active{color:var(--acc)}
   <div class="card-hdr" onclick="toggleCard('c-a',renderArrival)"><div><div class="ct" data-edid="ct-pa-a">ARRIVAL ANNOUNCEMENT</div><div class="cs" data-edid="cs-pa-a">Top of descent · ~25 min to landing</div></div><div class="chev">▼</div></div>
   <div class="card-body">
     <div class="fg">
-      <div class="f"><label>PF</label><select id="a-pf" onchange="renderArrival()"><option value="captain">Captain (me)</option><option value="fo">First Officer</option></select></div>
+      <div class="f"><label>Descent</label><select id="a-ds" onchange="renderArrival()"><option value="1">1 · Shortly commencing</option><option value="2">2 · Just started</option></select></div>
       <div class="f"><label>Destination</label><input id="a-dest" placeholder="e.g. Singapore" oninput="renderArrival()"></div>
-      <div class="f"><label>Local Time Now</label><input id="a-lt" placeholder="e.g. 14:20" oninput="renderArrival()"></div>
+      <div class="f full"><label>Weather Expected</label><input id="a-wx" placeholder="e.g. light rain, scattered clouds, light southerly winds" oninput="renderArrival()"></div>
       <div class="f"><label>Ground Temp (°C)</label><input id="a-tmp" placeholder="e.g. 28" oninput="renderArrival()"></div>
-      <div class="f"><label>Est. Landing Time</label><input id="a-ldg" placeholder="e.g. 14:45" oninput="renderArrival()"></div>
-      <div class="f"><label>Closing Greeting</label><select id="a-g" onchange="renderArrival()"><option value="morning">morning</option><option value="afternoon">afternoon</option><option value="evening">evening</option></select></div>
+      <div class="f"><label>Est. Landing Time</label><input id="a-ldg" placeholder="e.g. 9:25" oninput="renderArrival()"></div>
     </div>
     <div class="fg" style="margin-bottom:12px">
-      <div class="ftog"><div class="tsw" id="ts-sg" onclick="togSG()"></div><label onclick="togSG()">Arriving Singapore?</label></div>
-      <div class="ftog"><div class="tsw" id="ts-scp" onclick="togSCP()"></div><label onclick="togSCP()">SCP Applied?</label></div>
+      <div class="ftog"><div class="tsw" id="ts-td" onclick="togPA('td')"></div><label onclick="togPA('td')">Time difference?</label></div>
+      <div class="ftog"><div class="tsw" id="ts-lt" onclick="togPA('lt')"></div><label onclick="togPA('lt')">Long taxi?</label></div>
+      <div class="ftog"><div class="tsw" id="ts-scp" onclick="togPA('scp')"></div><label onclick="togPA('scp')">SCP applied?</label></div>
     </div>
+    <div class="tex" id="pa-td"><div class="fg"><div class="f"><label>Departed From</label><input id="a-from" placeholder="e.g. Singapore" oninput="renderArrival()"></div><div class="f"><label>Local Time Now</label><input id="a-lt" placeholder="e.g. 20 mins past 9 in the morning" oninput="renderArrival()"></div></div></div>
+    <div class="tex" id="pa-lt"><div class="fg"><div class="f"><label>Taxi Time (mins)</label><input id="a-tx" placeholder="e.g. 15" oninput="renderArrival()"></div></div></div>
     <div class="pas" id="scr-a"></div>
     <button class="btn-copy" onclick="cp('scr-a',this)">📋 &nbsp;Copy Script</button>
+  </div>
+</div>
+
+<!-- Delay / schedule update -->
+<div class="card" id="c-d">
+  <div class="card-hdr" onclick="toggleCard('c-d',renderDelay)"><div><div class="ct" data-edid="ct-pa-d">DELAY UPDATE</div><div class="cs" data-edid="cs-pa-d">Gate hold · parking bay · holding — behind or ahead of schedule</div></div><div class="chev">▼</div></div>
+  <div class="card-body">
+    <div class="fg">
+      <div class="f full"><label>Situation</label><select id="d-s" onchange="renderDelay()"><option value="b-gate">Behind schedule · Gate (pushback delayed)</option><option value="b-bay">Behind schedule · Parking bay not ready</option><option value="b-hold">Behind schedule · Holding</option><option value="a-bay">Still ahead · Parking bay not ready</option><option value="a-hold">Still ahead · Holding</option></select></div>
+      <div class="f"><label>Destination</label><input id="d-dest" placeholder="e.g. Kuching" oninput="renderDelay()"></div>
+      <div class="f"><label>Wait (mins)</label><input id="d-m" placeholder="e.g. 10" oninput="renderDelay()"></div>
+      <div class="f" id="d-r-f"><label>Reason</label><input id="d-r" placeholder="apron congestion" oninput="renderDelay()"></div>
+      <div class="f" id="d-eta-f"><label>New ETA</label><input id="d-eta" placeholder="e.g. 9:40" oninput="renderDelay()"></div>
+    </div>
+    <div class="pas" id="scr-d"></div>
+    <button class="btn-copy" onclick="cp('scr-d',this)">📋 &nbsp;Copy Script</button>
   </div>
 </div>
 
@@ -728,7 +749,7 @@ function useList(n){ CUR=LISTS[n]; AD=CUR.data; }
 let checked = JSON.parse(localStorage.getItem('fc-chk')||'{}');
 let expanded = {};
 let editMode = false;
-let turbN = 1, delayOn=false, sgOn=false, scpOn=false;
+let turbN = 1, delayOn=false;
 let refN = 1, touchX = 0;
 let nmSI = 0, nmII = 0;
 
@@ -1204,25 +1225,55 @@ function toggleCard(elOrId,cb){
 }
 
 // ══ PA — WELCOME ══
+function gv(id){ return document.getElementById(id).value.trim(); }
 function togDelay(){ delayOn=!delayOn; document.getElementById('ts-delay').classList.toggle('on',delayOn); document.getElementById('delay-f').style.display=delayOn?'block':'none'; renderWelcome(); }
 function fi(v,l){ return v?`<span class="fill">${v}</span>`:`<span class="blank">[${l}]</span>`; }
 function renderWelcome(){
-  const g=document.getElementById('w-g').value, fo=document.getElementById('w-fo').value.trim(), fn=document.getElementById('w-fn').value.trim(), dest=document.getElementById('w-dest').value.trim(), ft=document.getElementById('w-ft').value.trim(), wx=document.getElementById('w-wx').value, cic=document.getElementById('w-cic').value.trim();
-  const wxt=wx==='fair'?'fair weather conditions with slight bumps along the way':'some weather along our route today. Rest assured, we will be making all necessary deviations to provide you with a pleasant and comfortable flight';
-  let delay='';
-  if(delayOn){ const dr=document.getElementById('w-dr').value.trim(), etd=document.getElementById('w-etd').value.trim(); delay=`<br><br>We apologise for the delay due to ${fi(dr,'delay reason')}. We now expect to depart at ${fi(etd,'new ETD')}. We appreciate your patience.`; }
-  document.getElementById('scr-w').innerHTML=`A very good ${g}, Ladies and Gentlemen, this is your Captain speaking. My name is Larry Teo. Together in the flight deck with me today is ${fi(fo,'FO/SFO Name')}, and we would like to welcome you onboard our flight ${fi(fn,'Flight No.')} to ${fi(dest,'Destination')}. The flight time today will be ${fi(ft,'Flight Time')}.${delay}<br><br>We are expecting ${wxt}.<br><br><span class="req">For your safety, please ensure that you always keep your seat belt fastened while seated.</span><br><br>Your Crew in Charge ${fi(cic,'CIC Name')} and his/her team of Cabin Crew will make sure that you are well looked after. I am certain that you will enjoy your flight with us.<br><br>As we will be departing shortly, please sit back, relax and have a pleasant flight. On behalf of all the crew, thank you for choosing to fly with Scoot.`;
+  const g=gv('w-g'), wx=gv('w-wx');
+  document.getElementById('wx-f2').classList.toggle('show',wx==='2');
+  document.getElementById('wx-f3').classList.toggle('show',wx==='3');
+  let wxt;
+  if(wx==='2') wxt=`we expect some bumps for the first ${fi(gv('w-wm'),'20–30')} minutes as we climb out of ${fi(gv('w-wc'),'departure city')}, after which it should settle down, with occasional light bumps along the way.`;
+  else if(wx==='3'){ const hrs=gv('w-wh'); wxt=`there's some activity ${fi(gv('w-ww'),'out of Singapore / en route')}${hrs?`, about ${fi(hrs,'N')} ${hrs==='1'?'hour':'hours'} into the flight`:''}. We'll route around it where we can, but you may feel some bumps as we pass by.`; }
+  else wxt='conditions are good today, with only light bumps expected along the way.';
+  const delay=delayOn?`<br><br>Before we go further, I'd like to apologise for our late departure. This was due to ${fi(gv('w-dr'),'reason agreed with GHA')}. We now expect to depart in about ${fi(gv('w-etd'),'X')} minutes and will do our best to make up time en route. Thank you for your patience.`:'';
+  document.getElementById('scr-w').innerHTML=`Good ${g}, ladies and gentlemen, this is your Pilot, Larry. Together with me on the flight deck is ${fi(gv('w-fo'),'Name')}. On behalf of my crew, welcome aboard Scoot flight ${fi(gv('w-fn'),'Flight No.')} to ${fi(gv('w-dest'),'Destination')}.${delay}<br><br>Our flight time today is ${fi(gv('w-ft'),'Flight Time')}. Your Crew-in-Charge, ${fi(gv('w-cic'),'CIC Name')}, and his/her team of cabin crew will make sure that you are well looked after.<br><br>Looking at the weather, ${wxt}<br><br><span class="req">For your safety, please ensure that you always keep your seat belt fastened while seated.</span><br><br>I'll update you with the latest weather and estimated arrival time before we start our descent. For now, sit back, relax, and thank you for choosing to fly with Scoot.`;
 }
 
 // ══ PA — ARRIVAL ══
-function togSG(){ sgOn=!sgOn; document.getElementById('ts-sg').classList.toggle('on',sgOn); renderArrival(); }
-function togSCP(){ scpOn=!scpOn; document.getElementById('ts-scp').classList.toggle('on',scpOn); renderArrival(); }
+const paOn={td:false,lt:false,scp:false};
+function togPA(k){
+  paOn[k]=!paOn[k];
+  document.getElementById('ts-'+k).classList.toggle('on',paOn[k]);
+  const f=document.getElementById('pa-'+k); if(f) f.classList.toggle('show',paOn[k]);
+  renderArrival();
+}
 function renderArrival(){
-  const pf=document.getElementById('a-pf').value, dest=document.getElementById('a-dest').value.trim(), lt=document.getElementById('a-lt').value.trim(), tmp=document.getElementById('a-tmp').value.trim(), ldg=document.getElementById('a-ldg').value.trim(), g=document.getElementById('a-g').value;
-  const pilot=pf==='fo'?'your pilot':'your Captain';
-  const scp=scpOn?`<br><br><span class="req">The seat belt sign will be turned ON earlier today as we may experience some turbulence along our arrival path. For those of you who wish to use the lavatories, you may do so now, as you will be required to be seated with your seat belts fastened for longer periods. We appreciate your cooperation.</span>`:'';
-  const sg=sgOn?`<br><br>To all travellers visiting Singapore, a very warm welcome. To all Singaporeans, welcome home!`:'';
-  document.getElementById('scr-a').innerHTML=`Ladies and Gentlemen, this is ${pilot} speaking. We trust that you have had a pleasant flight thus far. Shortly, we will commence our descent into ${fi(dest,'Destination')}.<br><br>The local time is ${fi(lt,'Local Time')} and the ground temperature is ${fi(tmp,'Temp')}°C. With air traffic permitting, we will be landing at ${fi(ldg,'Landing Time')} local time.${scp}${sg}<br><br>Once again, thank you for choosing to fly with Scoot. We hope to see you again on one of our flights in the near future. Have a pleasant ${g}.<br><br>Cabin crew, secure the cabin for landing / SCP.`;
+  const dest=gv('a-dest'), D=l=>fi(dest,l||'Destination');
+  const descent=gv('a-ds')==='2'?`We have just started our initial descent into ${D()}.`:`Shortly, we will commence our descent into ${D()}.`;
+  const ldg=`ith air traffic permitting, we will be landing at ${fi(gv('a-ldg'),'Landing Time')} local time.`;
+  const time=paOn.td?`There's a time difference between ${fi(gv('a-from'),'Origin')} and ${D()}. If you want to adjust your watches, it is ${fi(gv('a-lt'),'Local Time')}, and w${ldg}`:`W${ldg}`;
+  const taxi=paOn.lt?`<br><br>After landing, we will be expecting approximately ${fi(gv('a-tx'),'X')} minutes of taxi before we reach our parking stand. Please keep your seat belts fastened until the seat belt signs are switched off.`:'';
+  const scp=paOn.scp?`<br><br><span class="req">The seat belt sign will be turned ON earlier today as we may experience some turbulence along our arrival path. For those of you who wish to use the lavatories, you may do so now, as you will be required to be seated with your seat belts fastened for longer periods. We appreciate your cooperation.</span>`:'';
+  document.getElementById('scr-a').innerHTML=`Ladies and gentlemen, this is your Pilot, Larry, speaking. We trust that you have had a pleasant flight thus far. ${descent}<br><br>We are expecting ${fi(gv('a-wx'),'Weather')}, with a ground temperature of ${fi(gv('a-tmp'),'Temp')} degrees Celsius.<br><br>${time}${taxi}${scp}<br><br>Once again, it's been a pleasure having you on board. We wish you a pleasant stay in ${D()} and we look forward to seeing you again.<br><br>Cabin crew, prepare for arrival. Thank you.`;
+}
+
+// ══ PA — DELAY UPDATE ══
+function renderDelay(){
+  const s=gv('d-s'), dest=fi(gv('d-dest'),'Destination'), m=fi(gv('d-m'),'X'), eta=fi(gv('d-eta'),'New ETA');
+  document.getElementById('d-r-f').style.display=s==='b-gate'?'':'none';
+  document.getElementById('d-eta-f').style.display=s.endsWith('hold')?'':'none';
+  const seat='Please remain seated with your seatbelt fastened until the seatbelt sign has been switched off.';
+  const hold=`Due to air traffic congestion at ${dest}, we have been instructed by air traffic control to hold for approximately ${m} minutes before our approach.`;
+  const sorry='We apologise for the inconvenience caused and thank you for your patience.';
+  const T={
+    'b-gate':`An update on our current status. We have just been told by the air traffic controller that we will not be able to push back for another ${m} minutes due to ${fi(gv('d-r')||'apron congestion')}, after which we should be on our way to ${dest}.<br><br>${sorry}`,
+    'b-bay':`We have landed safely into ${dest}; however, our parking bay is not yet available and we are currently holding on the taxiway. We expect to be at the gate in approximately ${m} minutes, which means our arrival will be slightly behind schedule. ${seat}<br><br>${sorry}`,
+    'b-hold':`${hold} This puts us slightly behind schedule and our new estimated time of arrival will be ${eta}.<br><br>${sorry}`,
+    'a-bay':`We have landed safely into ${dest} and are currently waiting for our parking bay to become available. The good news is that we arrived ahead of schedule, so even with this short wait of approximately ${m} minutes, we still expect to be at the gate on time. ${seat}<br><br>Thank you for your patience.`,
+    'a-hold':`${hold} The good news is that we are still ahead of schedule and the new estimated time of arrival will be ${eta}.<br><br>Thank you for your patience.`
+  };
+  document.getElementById('scr-d').innerHTML=`Ladies and gentlemen, this is your Pilot speaking.<br><br>${T[s]}`;
 }
 
 // ══ PA — GO AROUND ══
@@ -1255,7 +1306,7 @@ function cp(id,btn){ const t=document.getElementById(id).innerText; if(navigator
 // ══ INIT ══
 document.addEventListener('DOMContentLoaded',async()=>{
   useList('prep'); renderCL(); useList('checklist'); renderCL(); renderECAM();
-  renderWelcome(); renderArrival(); renderGA(); renderTurb();
+  renderWelcome(); renderArrival(); renderDelay(); renderGA(); renderTurb();
   document.getElementById('pill').style.display='';
   document.getElementById('pbw').style.display='';
   updateProg();
