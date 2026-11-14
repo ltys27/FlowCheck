@@ -1,6 +1,6 @@
-const CACHE = 'flowcheck-v21';
+const CACHE = 'flowcheck-v22';
 // The app itself: install fails (and the previous version keeps running) unless all of these are stored.
-const CORE = ['./','./index.html','./manifest.json','./icon.svg','./icon-192.png','./icon-512.png'];
+const CORE = ['./','./index.html','./manifest.json','./icon.svg','./icon-192.png','./icon-512.png','./apple-touch-icon.png'];
 // Reference screenshots: stored one by one so a single failed download cannot block the install.
 const ASSETS = [
   './ref/page_01.jpg','./ref/page_02.jpg','./ref/page_03.jpg','./ref/page_04.jpg',
