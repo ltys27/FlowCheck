@@ -467,7 +467,7 @@ nav button.active{color:var(--acc)}
 <div class="card-body" style="padding:0"><div class="brief" data-edid="b-awnf"><strong style="color:var(--acc)">AWNF</strong> &nbsp;Aircraft status · Weather · NOTAMs · Fuel<br><br><strong style="color:var(--acc)">CPTS</strong> &nbsp;Cargo (NOTOC) · PWD Pax · Time (ETD + flight time) · Station Colour<div class="ibox"><div class="it">✈ A320 iPad Login</div><div class="ir"><span style="color:var(--t2)">Aircraft</span><span>—</span></div><div class="ir"><span style="color:var(--t2)">Username</span><span>—</span></div><div class="ir"><span style="color:var(--t2)">Password</span><span>—</span></div></div></div></div></div>
 
 <div class="card"><div class="card-hdr" onclick="toggleCard(this.parentElement)"><div><div class="ct" data-edid="ct-b-ls">E-LOADSHEET WORKFLOW</div><div class="cs" data-edid="cs-b-ls">Timeline before ETD</div></div><div class="chev">▼</div></div>
-<div class="card-body" style="padding:0"><table class="wft" data-edid="b-ls"><tr><th>ETD−</th><th>By</th><th>Action</th></tr><tr><td class="etd">−40</td><td class="by">Load Control</td><td>FZFW available via Aviator. If not received by −30, send reminder</td></tr><tr><td class="etd">−30</td><td class="by">Flight Crew</td><td>FIT &amp; BO (final fuel &amp; burn-off) relayed to Load Control via ACARS</td></tr><tr><td class="etd">−12</td><td class="by">Flight Crew</td><td>E-Loadsheet received via Aviator. If not received by −10, send reminder</td></tr><tr><td class="etd" style="color:var(--acc)">↑</td><td class="by">Flight Crew</td><td>Check &amp; sign Loadsheet on Aviator</td></tr><tr><td class="etd">−5</td><td class="by">Load Control</td><td>ACARS: "Signed Loadsheet and NOTOC VER XX received"</td></tr></table></div></div>
+<div class="card-body" style="padding:0"><table class="wft" data-edid="b-ls"><tr><th>ETD−</th><th>By</th><th>Action</th></tr><tr><td class="etd">−40</td><td class="by">Load Control</td><td>FZFW available via Aviator. If not received by −30, send reminder</td></tr><tr><td class="etd">−30</td><td class="by">Flight Crew</td><td>FIT &amp; BO (final fuel &amp; burn-off) relayed to Load Control via ACARS</td></tr><tr><td class="etd">−12</td><td class="by">Flight Crew</td><td>E-Loadsheet received via Aviator. If not received by −10, send reminder</td></tr></table></div></div>
 
 <div class="card"><div class="card-hdr" onclick="toggleCard(this.parentElement)"><div><div class="ct" data-edid="ct-b-notoc">E-NOTOC WORKFLOW</div><div class="cs" data-edid="cs-b-notoc">Timeline before ETD</div></div><div class="chev">▼</div></div>
 <div class="card-body" style="padding:0"><table class="wft" data-edid="b-notoc"><tr><th>ETD−</th><th>By</th><th>Action</th></tr><tr><td class="etd">−20 to −15</td><td class="by">Flight Crew</td><td>E-NOTOC received via Aviator</td></tr><tr><td class="etd" style="color:var(--acc)">↑</td><td class="by">Flight Crew</td><td>Verify &amp; sign E-NOTOC on Aviator</td></tr><tr><td class="etd">−2</td><td class="by">Load Control</td><td>ACARS confirmation of signed Loadsheet + NOTOC</td></tr></table></div></div>
@@ -954,7 +954,7 @@ function toggleEdit(){
 const ED_DEF={};
 // Bump ED_VER and list the data-edid values whose built-in content was rewritten:
 // device copies of those are dropped once so the new content shows.
-const ED_VER=3, ED_REWRITTEN=['qr-2','qr-3','qr-6','qr-9','qr-12','qr-26','qr-27','b-ls'];
+const ED_VER=4, ED_REWRITTEN=['b-ls'];
 function saveEditable(){
   document.querySelectorAll('[data-edid]').forEach(el=>{
     const k='fc-ed-'+el.dataset.edid;
