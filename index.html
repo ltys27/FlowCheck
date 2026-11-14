@@ -178,6 +178,31 @@ nav button.active{color:var(--acc)}
 .dtbl.sm th{position:sticky;top:56px;z-index:5}
 .dtbl.sm .k{color:var(--t2);width:31%}
 .qc .reasons li{font-size:13px}
+/* tools */
+.wres{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.wbox{background:var(--bg4);border:1px solid var(--bdr);border-radius:9px;padding:10px 12px}
+.wbox .wl{font-size:9.5px;font-weight:800;letter-spacing:1px;color:var(--t3);text-transform:uppercase}
+.wbox .wv{font-size:26px;font-weight:800;color:var(--text);line-height:1.2;margin-top:2px}
+.wbox .wv small{font-size:13px;font-weight:700;color:var(--t2)}
+.wbox .ws{font-size:12px;font-weight:700;color:var(--acc)}
+.wbox.bad{border-color:#f87171}.wbox.bad .wv,.wbox.bad .ws{color:#fca5a5}
+.wrow{font-size:10px;font-weight:800;letter-spacing:1px;color:var(--t3);text-transform:uppercase;margin:4px 0 5px}
+.wmsg{padding:12px;text-align:center;color:var(--t3);font-size:13px;background:var(--bg4);border:1px dashed var(--bdr);border-radius:9px;margin-bottom:8px}
+.snr{background:var(--bg4);border:1px solid var(--bdr);border-radius:9px;padding:11px 12px;margin-bottom:9px}
+.snr .snh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+.snr .snh b{font-size:16px;color:var(--acc)}
+.snr .snh span{font-size:11px;color:var(--t3)}
+.sn3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.sn3>div{background:var(--bg2);border:1px solid var(--bdr);border-radius:7px;padding:7px 6px;text-align:center;min-width:0}
+.sn3 .p{font-size:9px;font-weight:800;letter-spacing:.6px;color:var(--t3);text-transform:uppercase}
+.sn3 .c{font-size:24px;font-weight:800;line-height:1.15}
+.sn3 .b{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.3px}
+.sn3 .d{font-size:11px;color:var(--t2);line-height:1.35;margin-top:4px;overflow-wrap:anywhere}
+.sn3 .g .c,.sn3 .g .b{color:#4ade80}.sn3 .a .c,.sn3 .a .b{color:var(--acc)}.sn3 .r .c,.sn3 .r .b{color:#fca5a5}
+.sn3 .r{border-color:rgba(248,113,113,.5)}
+.snn{font-size:11.5px;color:var(--t2);line-height:1.5;margin-top:8px}
+.snn b{color:#fca5a5}
+
 /* flow charts */
 .fc{display:block;width:100%;height:auto}
 .fc text{font-size:10.5px;fill:var(--text);text-anchor:middle;font-family:inherit}
@@ -567,6 +592,37 @@ nav button.active{color:var(--acc)}
 </div>
 </div><!-- /page-qr -->
 
+<!-- ════ TOOLS ════ -->
+<div id="page-tools" class="page">
+<div class="pgt" data-edid="pgt-tools">Tools</div>
+
+<!-- Wind components -->
+<div class="card open" id="c-wind">
+  <div class="card-hdr" onclick="toggleCard('c-wind')"><div><div class="ct" data-edid="ct-t-wind">WIND COMPONENT CALCULATOR</div><div class="cs" data-edid="cs-t-wind">Headwind / tailwind and crosswind for a runway</div></div><div class="chev">▼</div></div>
+  <div class="card-body">
+    <div class="fg">
+      <div class="f"><label>Runway</label><input id="wc-rwy" inputmode="numeric" placeholder="e.g. 02 or 023" oninput="renderWind()"></div>
+      <div class="f"><label>Wind Direction (°)</label><input id="wc-dir" inputmode="numeric" placeholder="e.g. 060" oninput="renderWind()"></div>
+      <div class="f"><label>Wind Speed (kt)</label><input id="wc-spd" inputmode="numeric" placeholder="e.g. 15" oninput="renderWind()"></div>
+      <div class="f"><label>Gust (kt, optional)</label><input id="wc-gst" inputmode="numeric" placeholder="e.g. 25" oninput="renderWind()"></div>
+    </div>
+    <div id="wc-out"></div>
+    <div class="qn">Runway: 01–36 is taken as the runway number (×10°); a 3-digit entry is taken as the runway heading. Use wind and runway in the same reference — ATIS / tower wind is magnetic, METAR / TAF wind is true.</div>
+  </div>
+</div>
+
+<!-- SNOWTAM -->
+<div class="card" id="c-snow">
+  <div class="card-hdr" onclick="toggleCard('c-snow')"><div><div class="ct" data-edid="ct-t-snow">SNOWTAM DECODER</div><div class="cs" data-edid="cs-t-snow">GRF format · paste the SNOWTAM text</div></div><div class="chev">▼</div></div>
+  <div class="card-body">
+    <div class="f" style="margin-bottom:10px"><label>SNOWTAM Text</label><textarea id="sn-in" style="min-height:120px;font-family:'SF Mono','Fira Mono',monospace;font-size:12px" placeholder="Paste SNOWTAM here…" oninput="renderSnow()" autocapitalize="characters" autocorrect="off" spellcheck="false"></textarea></div>
+    <div style="display:flex;gap:8px;margin-bottom:12px"><button class="btn-reset" style="flex:1;padding:9px;font-size:12px" onclick="snowExample()">Load Example</button><button class="btn-reset" style="flex:1;padding:9px;font-size:12px" onclick="document.getElementById('sn-in').value='';renderSnow()">Clear</button></div>
+    <div id="sn-out"></div>
+    <div class="qn">Decodes the ICAO Global Reporting Format SNOWTAM (in use since Nov 2021). Always cross-check against the original text.</div>
+  </div>
+</div>
+</div><!-- /page-tools -->
+
 <!-- ════ ECAM ════ -->
 <div id="page-ecam" class="page">
 <div class="ecam-wrap">
@@ -594,11 +650,12 @@ nav button.active{color:var(--acc)}
 <nav>
   <button id="nav-prep" onclick="sw('prep')"><span class="ni">🗓</span><span>Prep</span></button>
   <button id="nav-checklist" class="active" onclick="sw('checklist')"><span class="ni">☑</span><span>Checklist</span></button>
-  <button id="nav-pa" onclick="sw('pa')"><span class="ni">📢</span><span>PA Scripts</span></button>
+  <button id="nav-pa" onclick="sw('pa')"><span class="ni">📢</span><span>PA</span></button>
   <button id="nav-briefings" onclick="sw('briefings')"><span class="ni">📋</span><span>Briefings</span></button>
   <button id="nav-qr" onclick="sw('qr')"><span class="ni">🔢</span><span>Quick Ref</span></button>
   <button id="nav-ecam" onclick="sw('ecam')"><span class="ni">⚡</span><span>ECAM</span></button>
   <button id="nav-ref" onclick="sw('ref')"><span class="ni">📄</span><span>Reference</span></button>
+  <button id="nav-tools" onclick="sw('tools')"><span class="ni">🧮</span><span>Tools</span></button>
 </nav>
 
 </div><!-- /app -->
@@ -1047,6 +1104,93 @@ function filterQR(){
   document.getElementById('qr-none').style.display=any?'none':'block';
 }
 
+// ══ TOOLS — WIND COMPONENTS ══
+function renderWind(){
+  const out=document.getElementById('wc-out');
+  const rw=gv('wc-rwy').replace(/[^0-9]/g,''), dir=parseFloat(gv('wc-dir')), spd=parseFloat(gv('wc-spd')), gst=parseFloat(gv('wc-gst'));
+  if(!rw||isNaN(dir)||isNaN(spd)){ out.innerHTML='<div class="wmsg">Enter runway, wind direction and speed</div>'; return; }
+  const n=parseInt(rw,10), hdg=rw.length<=2?(n>=1&&n<=36?n*10:0):n;
+  if(hdg<1||hdg>360||dir<0||dir>360||spd<0){ out.innerHTML='<div class="wmsg">Check the values — runway 01–36 (or heading 001–360), wind 000–360</div>'; return; }
+  const a=(dir-hdg)*Math.PI/180;
+  const row=(v,lbl)=>{
+    const hw=Math.round(v*Math.cos(a)), xw=Math.round(v*Math.sin(a)), tail=hw<0;
+    return `<div class="wrow">${lbl} — ${String(Math.round(dir)).padStart(3,'0')}° / ${Math.round(v)} kt</div><div class="wres">
+      <div class="wbox${tail?' bad':''}"><div class="wl">${tail?'Tailwind':'Headwind'}</div><div class="wv">${Math.abs(hw)} <small>kt</small></div><div class="ws">${hw===0?'none':tail?'from behind':'on the nose'}</div></div>
+      <div class="wbox"><div class="wl">Crosswind</div><div class="wv">${Math.abs(xw)} <small>kt</small></div><div class="ws">${xw===0?'none':xw>0?'from the RIGHT':'from the LEFT'}</div></div></div>`;
+  };
+  let o=`<div class="wrow" style="color:var(--acc)">Runway heading ${String(hdg).padStart(3,'0')}°</div>`+row(spd,'Steady wind');
+  if(!isNaN(gst)&&gst>spd) o+=row(gst,'Gust');
+  out.innerHTML=o;
+}
+
+// ══ TOOLS — SNOWTAM (ICAO GRF) ══
+const SN_BA=['Less than poor','Poor','Medium to poor','Medium','Good to medium','Good','Dry'];
+const SN_COND=['COMPACTED SNOW','DRY SNOW ON TOP OF COMPACTED SNOW','DRY SNOW ON TOP OF ICE','DRY SNOW','FROST','WET ICE','ICE','SLUSH','STANDING WATER','WATER ON TOP OF COMPACTED SNOW','WET SNOW ON TOP OF COMPACTED SNOW','WET SNOW ON TOP OF ICE','WET SNOW','WET','DRY','NR'];
+const SN_EX=`SWEN0149 ENGM 02170345
+(SNOWTAM 0149
+ENGM
+02170345 01L 5/5/5 100/100/100 NR/NR/NR WET/WET/WET
+02170134 01R 5/2/2 100/50/75 NR/06/06 WET/SLUSH/SLUSH
+RWY 01L REDUCED TO 3200. DRIFTING SNOW. RWY 01R LOOSE SAND. RWY 01L CHEMICALLY TREATED. RWY 01R SNOWBANK R20 FM CL. TWY B POOR. APRON NORTH POOR.)`;
+function snowExample(){ document.getElementById('sn-in').value=SN_EX; renderSnow(); }
+function hx(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function snTime(t){ const M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+t.slice(0,2)-1]; return M?`${t.slice(2,4)} ${M} ${t.slice(4,6)}:${t.slice(6,8)} UTC`:t; }
+function snSit(s){
+  let m;
+  if(m=s.match(/^RWY (\S+) REDUCED TO (\d+)$/)) return `Runway ${m[1]}: length reduced — LDA ${+m[2]} m`;
+  if(/^DRIFTING SNOW$/.test(s)) return 'Drifting snow on the runway(s)';
+  if(m=s.match(/^RWY (\S+) LOOSE SAND$/)) return `Runway ${m[1]}: loose sand on the runway`;
+  if(m=s.match(/^RWY (\S+) CHEMICALLY TREATED$/)) return `Runway ${m[1]}: chemically treated`;
+  if(m=s.match(/^RWY (\S+) SNOWBANK (LR|L|R)(\d+) FM CL$/)) return `Runway ${m[1]}: snowbank on the runway, ${({L:'left',R:'right',LR:'left and right'})[m[2]]} side, ${+m[3]} m from centreline`;
+  if(m=s.match(/^RWY (\S+) ADJ SNOWBANKS?$/)) return `Runway ${m[1]}: snowbanks adjacent to the runway`;
+  if(m=s.match(/^TWY (\S+) SNOWBANKS?$/)) return `Taxiway ${m[1]}: snowbank on the taxiway`;
+  if(/^ALL TWYS? POOR$/.test(s)) return 'All taxiways: poor';
+  if(m=s.match(/^TWY (\S+) POOR$/)) return `Taxiway ${m[1]}: poor`;
+  if(/^ALL APRONS? POOR$/.test(s)) return 'All aprons: poor';
+  if(m=s.match(/^APRON (.+) POOR$/)) return `Apron ${m[1]}: poor`;
+  if(/^APRON POOR$/.test(s)) return 'Apron: poor';
+  return null;
+}
+function renderSnow(){
+  const out=document.getElementById('sn-out');
+  const raw=document.getElementById('sn-in').value.toUpperCase();
+  const txt=raw.replace(/[()]/g,' ').replace(/\s+/g,' ').trim();
+  if(!txt){ out.innerHTML=''; return; }
+  // one runway group: time, lower designator, RWYCC x3, coverage x3, depth x3, then condition text
+  const re=/(\d{8}) (\d{2}[LCR]?) ([0-6])\/([0-6])\/([0-6]) (NR|\d{1,3})\/(NR|\d{1,3})\/(NR|\d{1,3}) (NR|\d{1,3})\/(NR|\d{1,3})\/(NR|\d{1,3}) /g;
+  const hits=[...txt.matchAll(re)];
+  if(!hits.length){
+    out.innerHTML=`<div class="wmsg">${/\b[ABC]\) /.test(raw)?'This looks like the old lettered SNOWTAM format (A) B) C)…), which this decoder does not read.':'No runway condition line found. Expected e.g. <br><code>02170345 01L 5/5/5 100/100/100 NR/NR/NR WET/WET/WET</code>'}</div>`; return;
+  }
+  const head=txt.slice(0,hits[0].index);
+  const ad=(head.match(/SNOWTAM \d+ ([A-Z]{4})\b/)||head.match(/\b([A-Z]{4}) \d{8}\b/)||head.match(/\b([A-Z]{4})\s*$/)||[])[1];
+  let o=ad?`<div class="wrow" style="color:var(--acc)">Aerodrome ${hx(ad)}</div>`:'', rest='';
+  const sitStart=/ (?=(?:RWY \S+ |TWY \S+ |ALL TWYS? |ALL APRONS? |APRON |DRIFTING SNOW))/;
+  hits.forEach((m,i)=>{
+    let body=txt.slice(m.index+m[0].length, i+1<hits.length?hits[i+1].index:txt.length).trim();
+    // conditions end where the situational-awareness section starts
+    const cut=(' '+body).search(sitStart);
+    if(cut>=0){ if(i===hits.length-1) rest=body.slice(cut).trim(); body=body.slice(0,cut).trim(); }
+    let width=null; const wm=body.match(/ (\d{2,3})$/); if(wm){ width=+wm[1]; body=body.slice(0,wm.index).trim(); }
+    let conds=body.split('/').map(s=>s.trim());
+    const known=conds.length===3&&conds.every(c=>SN_COND.includes(c));
+    const cc=[m[3],m[4],m[5]].map(Number), cov=[m[6],m[7],m[8]], dep=[m[9],m[10],m[11]];
+    const cell=k=>{
+      const c=cc[k], cls=c>=5?'g':c>=3?'a':'r';
+      return `<div class="${cls}"><div class="p">${['1st','2nd','3rd'][k]} third</div><div class="c">${c}</div><div class="b">${SN_BA[c]}</div><div class="d">${hx(conds[k]||'?')}<br>${cov[k]==='NR'?'cover &lt;10% / NR':cov[k]+'% cover'}<br>${dep[k]==='NR'?'depth NR':+dep[k]+' mm'}</div></div>`;
+    };
+    const low=Math.min(...cc);
+    o+=`<div class="snr"><div class="snh"><b>RWY ${hx(m[2])}</b><span>assessed ${hx(snTime(m[1]))}</span></div><div class="sn3">${cell(0)}${cell(1)}${cell(2)}</div>`
+      +`<div class="snn">Thirds are counted from the RWY ${hx(m[2])} threshold — reverse the order when using the opposite direction.`
+      +(width?`<br>RWYCC applies to a cleared width of <b>${width} m</b> (less than published).`:'')
+      +(low<=4?`<br><b>RWYCC ${low} — 4 or less: contaminated runway rules apply (see Quick Ref).</b>`:'')
+      +(known?'':`<br><b>Condition text not fully recognised — read it from the original: “${hx(body)}”.</b>`)+`</div></div>`;
+  });
+  const items=rest.split('.').map(s=>s.trim()).filter(Boolean);
+  if(items.length) o+=`<div class="snr"><div class="snh"><b style="font-size:13px">Situational awareness</b></div><ul class="qlst">${items.map(s=>{const d=snSit(s);return `<li>${d?`<b>${hx(d)}</b><br><span class="dim">${hx(s)}</span>`:hx(s)}</li>`;}).join('')}</ul></div>`;
+  out.innerHTML=o;
+}
+
 // ══ LMC ══
 function renderLMC(){
   const pad=v=>String(v).padStart(2,'0'), pl={ADULT:'ADULTS',CHILD:'CHILDREN',INFANT:'INFANTS'};
@@ -1446,7 +1590,7 @@ function cp(id,btn){ const t=document.getElementById(id).innerText; if(navigator
 // ══ INIT ══
 document.addEventListener('DOMContentLoaded',async()=>{
   useList('prep'); renderCL(); useList('checklist'); renderCL(); renderECAM();
-  renderWelcome(); renderArrival(); renderDelay(); renderGA(); renderTurb(); renderLMC();
+  renderWelcome(); renderArrival(); renderDelay(); renderGA(); renderTurb(); renderLMC(); renderWind();
   document.getElementById('pill').style.display='';
   document.getElementById('pbw').style.display='';
   updateProg();
