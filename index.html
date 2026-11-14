@@ -1546,11 +1546,11 @@ function renderWelcome(){
   document.getElementById('wx-f2').classList.toggle('show',wx==='2');
   document.getElementById('wx-f3').classList.toggle('show',wx==='3');
   let wxt;
-  if(wx==='2') wxt=`we expect some bumps for the first ${fi(gv('w-wm'),'20–30')} minutes as we climb out of ${fi(gvs('w-wc'),'departure city')}, after which it should settle down, with occasional light bumps along the way.`;
+  if(wx==='2') wxt=`we expect some bumps for the first ${fi(gv('w-wm'),'20–30')} minutes as we climb out of ${fi(gv('w-wc'),'departure city')}, after which it should settle down, with occasional light bumps along the way.`;
   else if(wx==='3'){ const hrs=gv('w-wh'); wxt=`there's some activity ${fi(gv('w-ww'),'out of Singapore / en route')}${hrs?`, about ${fi(hrs,'N')} ${hrs==='1'?'hour':'hours'} into the flight`:''}. We'll route around it where we can, but you may feel some bumps as we pass by.`; }
   else wxt='conditions are good today, with only light bumps expected along the way.';
   const delay=delayOn?`<br><br>Before we go further, I'd like to apologise for our late departure. This was due to ${fi(gv('w-dr'),'reason agreed with GHA')}. We now expect to depart in about ${fi(gv('w-etd'),'X')} minutes and will do our best to make up time en route. Thank you for your patience.`:'';
-  document.getElementById('scr-w').innerHTML=`Good ${g}, ladies and gentlemen, this is your Pilot, Larry. Together with me on the flight deck is ${fi(gv('w-fo'),'Name')}. On behalf of my crew, welcome aboard Scoot flight ${fi(gvs('w-fn'),'Flight No.')} to ${fi(gvs('w-dest'),'Destination')}.${delay}<br><br>Our flight time today is ${fi(fmtTime(gvs('w-ft')),'Flight Time')}. Your Crew-in-Charge, ${fi(gv('w-cic'),'CIC Name')}, and his/her team of cabin crew will make sure that you are well looked after.<br><br>Looking at the weather, ${wxt}<br><br><span class="req">For your safety, please ensure that you always keep your seat belt fastened while seated.</span><br><br>I'll update you with the latest weather and estimated arrival time before we start our descent. For now, sit back, relax, and thank you for choosing to fly with Scoot.`;
+  document.getElementById('scr-w').innerHTML=`Good ${g}, ladies and gentlemen, this is your Pilot, Larry. Together with me on the flight deck is ${fi(gv('w-fo'),'Name')}. On behalf of my crew, welcome aboard Scoot flight ${fi(gv('w-fn'),'Flight No.')} to ${fi(gv('w-dest'),'Destination')}.${delay}<br><br>Our flight time today is ${fi(gv('w-ft'),'Flight Time')}. Your Crew-in-Charge, ${fi(gv('w-cic'),'CIC Name')}, and his/her team of cabin crew will make sure that you are well looked after.<br><br>Looking at the weather, ${wxt}<br><br><span class="req">For your safety, please ensure that you always keep your seat belt fastened while seated.</span><br><br>I'll update you with the latest weather and estimated arrival time before we start our descent. For now, sit back, relax, and thank you for choosing to fly with Scoot.`;
 }
 
 // ══ PA — ARRIVAL ══
@@ -1562,10 +1562,10 @@ function togPA(k){
   renderArrival(); savePA();
 }
 function renderArrival(){
-  const dest=gvs('a-dest'), D=l=>fi(dest,l||'Destination');
+  const dest=gv('a-dest'), D=l=>fi(dest,l||'Destination');
   const descent=gv('a-ds')==='2'?`We have just started our initial descent into ${D()}.`:`Shortly, we will commence our descent into ${D()}.`;
   const ldg=`ith air traffic permitting, we will be landing at ${fi(gv('a-ldg'),'Landing Time')} local time.`;
-  const time=paOn.td?`There's a time difference between ${fi(gvs('a-from'),'Origin')} and ${D()}. If you want to adjust your watches, it is ${fi(gv('a-lt'),'Local Time')}, and w${ldg}`:`W${ldg}`;
+  const time=paOn.td?`There's a time difference between ${fi(gv('a-from'),'Origin')} and ${D()}. If you want to adjust your watches, it is ${fi(gv('a-lt'),'Local Time')}, and w${ldg}`:`W${ldg}`;
   const taxi=paOn.lt?`<br><br>After landing, we will be expecting approximately ${fi(gv('a-tx'),'X')} minutes of taxi before we reach our parking stand. Please keep your seat belts fastened until the seat belt signs are switched off.`:'';
   const scp=paOn.scp?`<br><br><span class="req">The seat belt sign will be turned ON earlier today as we may experience some turbulence along our arrival path. For those of you who wish to use the lavatories, you may do so now, as you will be required to be seated with your seat belts fastened for longer periods. We appreciate your cooperation.</span>`:'';
   document.getElementById('scr-a').innerHTML=`Ladies and gentlemen, this is your Pilot, Larry, speaking. We trust that you have had a pleasant flight thus far. ${descent}<br><br>We are expecting ${fi(gv('a-wx'),'Weather')}, with a ground temperature of ${fi(gv('a-tmp'),'Temp')} degrees Celsius.<br><br>${time}${taxi}${scp}<br><br>Once again, it's been a pleasure having you on board. We wish you a pleasant stay in ${D()} and we look forward to seeing you again.<br><br>Cabin crew, prepare for arrival. Thank you.`;
@@ -1573,7 +1573,7 @@ function renderArrival(){
 
 // ══ PA — DELAY UPDATE ══
 function renderDelay(){
-  const s=gv('d-s'), dest=fi(gvs('d-dest'),'Destination'), m=fi(gv('d-m'),'X'), eta=fi(gv('d-eta'),'New ETA');
+  const s=gv('d-s'), dest=fi(gv('d-dest'),'Destination'), m=fi(gv('d-m'),'X'), eta=fi(gv('d-eta'),'New ETA');
   document.getElementById('d-r-f').style.display=s==='b-gate'?'':'none';
   document.getElementById('d-eta-f').style.display=s.endsWith('hold')?'':'none';
   const seat='Please remain seated with your seatbelt fastened until the seatbelt sign has been switched off.';
@@ -1598,28 +1598,6 @@ function renderGA(){
 // ══ DEFECT FLOW CHARTS ══
 function setFC(n){ [1,2].forEach(i=>{ document.getElementById('fct'+i).classList.toggle('on',i===n); document.getElementById('fc'+i).style.display=i===n?'':'none'; }); }
 
-// ══ PA — TWO SECTORS IN ONE FIELD ══
-// Flight no., destination, origin and flight time may hold both sectors, e.g. "TR438/439",
-// "KCH/SIN", "105/115". paSector picks what the scripts read: 0 = as typed, 1 or 2 = that sector.
-let paSector=0;
-const PA_SPLIT=['w-fn','w-dest','w-ft','w-wc','a-dest','a-from','d-dest'];
-function sectorPart(v,n){
-  const parts=v.split('/').map(s=>s.trim());
-  if(!n||parts.length<2) return v;
-  let out=parts[n-1]||parts[0];
-  // "TR438/439" → sector 2 is "TR439": borrow the letters from the first part
-  const pre=(parts[0].match(/^[A-Za-z]+\s?/)||[''])[0];
-  if(n>1&&pre&&/^\d+$/.test(out)) out=pre+out;
-  return out;
-}
-function gvs(id){ return sectorPart(gv(id),paSector); }
-function fmtTime(v){            // "105" → "1 hour 45 minutes"; anything else is left as typed
-  if(!/^\d{2,3}$/.test(v)) return v;
-  const m=+v, hh=Math.floor(m/60), mm=m%60, H=hh?`${hh} hour${hh>1?'s':''}`:'', M=mm?`${mm} minute${mm>1?'s':''}`:'';
-  return [H,M].filter(Boolean).join(' ')||v;
-}
-function setSector(n){ paSector=n; renderPA(); savePA(); fdRender(); }
-
 // ══ PA — REMEMBER FIELDS ══
 // Everything typed on the PA tab is kept on the device, so it survives iOS closing the app.
 let paReady=false;
@@ -1627,17 +1605,15 @@ function paFields(){ return [...document.querySelectorAll('#page-pa input[id],#p
 function renderPA(){ renderWelcome(); renderArrival(); renderDelay(); renderGA(); renderTurb(); }
 function savePA(){
   if(!paReady) return;
-  const o={f:{},t:{delay:delayOn,td:paOn.td,lt:paOn.lt,scp:paOn.scp},s:paSector};
+  const o={f:{},t:{delay:delayOn,td:paOn.td,lt:paOn.lt,scp:paOn.scp}};
   paFields().forEach(e=>o.f[e.id]=e.value);
   try{ localStorage.setItem('fc-pa',JSON.stringify(o)); }catch{}
-  fdSectorBar();
 }
 function loadPA(){
   try{
     const o=JSON.parse(localStorage.getItem('fc-pa')||'null');
     if(o){
       paFields().forEach(e=>{ if(o.f&&o.f[e.id]!=null) e.value=o.f[e.id]; });
-      paSector=[1,2].includes(o.s)?o.s:0;
       if(o.t&&o.t.delay) togDelay();
       ['td','lt','scp'].forEach(k=>{ if(o.t&&o.t[k]) togPA(k); });
     }
@@ -1648,7 +1624,6 @@ function resetPA(){
   paFields().forEach(e=>{ if(e.tagName==='SELECT') e.selectedIndex=0; else e.value=''; });
   if(delayOn) togDelay();
   ['td','lt','scp'].forEach(k=>{ if(paOn[k]) togPA(k); });
-  paSector=0;
 }
 function clearPA(){
   if(!confirm('Clear all PA fields for a new flight?')) return;
@@ -1717,16 +1692,7 @@ function fdRender(err){
   if(err) st+=`<br><span class="err">${hx(err)}</span>`;
   let o=`<div class="fdt"><div class="fds"><b>Flight data</b>${st}</div>${c.url?'<button class="fdbtn" onclick="fdFetch(true)">⟳</button>':''}<button class="fdbtn" onclick="fdSetup()">⚙</button><button class="fdbtn" onclick="clearPA()">Clear</button></div>`;
   if(FD&&FD.sectors.length>1) o+='<div class="fdchips">'+FD.sectors.map((s,i)=>`<button class="fdchip${i===FD.sector?' on':''}" onclick="fdApply(${i})"><b>${hx(fdPick(s,'flight','flight_no')||'Sector '+(i+1))}</b>${hx(fdPick(s,'from','origin','dep')||'?')} → ${hx(fdPick(s,'dest','destination','to')||'?')}</button>`).join('')+'</div>';
-  bar.innerHTML=o+'<div id="fd-sec"></div>';
-  fdSectorBar();
-}
-// Both / Sector 1 / Sector 2 switch, shown only while a field holds two sectors
-function fdSectorBar(){
-  const el=document.getElementById('fd-sec'); if(!el) return;
-  const two=PA_SPLIT.some(id=>gv(id).includes('/'));
-  if(!two){ el.innerHTML=''; if(paSector){ paSector=0; renderPA(); } return; }
-  const eg=n=>hx([sectorPart(gv('w-fn'),n),sectorPart(gv('w-dest'),n)].filter(Boolean).join(' → '))||'&nbsp;';
-  el.innerHTML='<div class="fdchips">'+[['Both',0],['Sector 1',1],['Sector 2',2]].map(([l,n])=>`<button class="fdchip${paSector===n?' on':''}" style="min-width:0" onclick="setSector(${n})"><b>${l}</b>${eg(n)}</button>`).join('')+'</div>';
+  bar.innerHTML=o;
 }
 function fdInit(){
   try{ FD=JSON.parse(localStorage.getItem('fc-flight')||'null'); }catch{ FD=null; }
